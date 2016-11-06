@@ -11,13 +11,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LogoActivity">
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyB5ODxq0sGWJ53KOryt1RSaVRlFnW53Eks"/>
+
+        <activity android:name=".MapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".LogoActivity">
+        </activity>
+
         <activity android:name=".LoginActivity">
         </activity>
         <activity android:name=".RegisterActivity">
