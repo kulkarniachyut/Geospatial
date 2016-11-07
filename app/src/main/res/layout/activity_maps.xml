@@ -8,7 +8,7 @@
     android:id="@+id/drawer_layout"
     tools:context="com.example.achi.login.MapActivity"
     >
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -22,13 +22,13 @@
                 <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/toolbarTransparent"
                 android:title=""
                 android:titleTextColor="@android:color/transparent" />
 
             </fragment>
-    </LinearLayout>
+    </FrameLayout>
 
     <android.support.design.widget.NavigationView
         android:layout_width="match_parent"
