@@ -31,7 +31,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getSupportActionBar().setTitle("");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout, toolbar,R.string.drawer_open,R.string.drawer_close);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close
+        );
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -70,17 +76,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        UiSettings uiSettings = mMap.getUiSettings();
         mMap.addCircle(new CircleOptions()
                 .center(sydney)
                 .radius(300)
                 .strokeWidth(0)
                 .fillColor(0x25808080)
         );
-
-        //mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.ub_map ));
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.ub_map ));
-
     }
 }
