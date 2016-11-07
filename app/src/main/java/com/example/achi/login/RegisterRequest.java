@@ -15,7 +15,7 @@ public class RegisterRequest extends StringRequest{
     private static final String REGISTER_REQUEST_URL = "http://vswamy.net:8888/signup" ;
     private Map<String,String> params;
 
-    public RegisterRequest(String fname, String lname, String email,  String password, String phone, Response.Listener<String> listener ){
+    public RegisterRequest(String fname, String lname, String email,  String password, String phone, Response.Listener<String> listener , Response.ErrorListener ErrorresponseListener){
         super(Method.PUT,REGISTER_REQUEST_URL , listener , null);
         params = new HashMap<>();
         params.put("first_name",fname);
