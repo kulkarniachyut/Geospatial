@@ -41,23 +41,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegisterActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class RegisterActivity extends AppCompatActivity
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
+{
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = LoginActivity.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+                .addApi(LocationServices.API).build();
         mGoogleApiClient.connect();
         Log.d("reaches here !", "maybe");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
 
         final EditText fname = (EditText) findViewById(R.id.etFirstName);
         final EditText lname = (EditText) findViewById(R.id.etLastName);
@@ -67,15 +68,18 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         Log.d("reaches here 2!", "maybe2");
         Button registerBtn = (Button) findViewById(R.id.btnRegister);
 
-        final Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        final Location location = LocationServices.FusedLocationApi
+                .getLastLocation(mGoogleApiClient);
 
         Log.d("location", String.valueOf(location));
         Log.d("location", "?");
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Log.d("working", "1");
 
                 final String first_name = fname.getText().toString();
@@ -84,15 +88,18 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 final String password = pass.getText().toString();
                 final String phone_number = phone.getText().toString();
                 Log.d("working", "2");
-//                Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                //                Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 Log.d("try 2 location", String.valueOf(location));
                 Log.d("location", "?");
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                Response.Listener<String> responseListener = new Response.Listener<String>()
+                {
 
                     @Override
-                    public void onResponse(String response) {
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    public void onResponse(String response)
+                    {
+                        Intent intent = new Intent(RegisterActivity.this,
+                                LoginActivity.class);
                         intent.putExtra("email", email);
                         intent.putExtra("password", password);
                         RegisterActivity.this.startActivity(intent);
@@ -100,17 +107,19 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                         Log.d("Working API", "3");
                         Log.d("response", response);
 
-
                     }
 
                 };
 
-                Response.ErrorListener ErrorresponseListener = new Response.ErrorListener() {
+                Response.ErrorListener ErrorresponseListener = new Response.ErrorListener()
+                {
 
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(VolleyError error)
+                    {
 
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this,
+                                LoginActivity.class);
                         RegisterActivity.this.startActivity(intent);
                         Log.d("Error", String.valueOf(error));
 
@@ -118,18 +127,21 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
                 };
 
-                RegisterRequest registerRequest = new RegisterRequest(first_name, last_name, email, password, phone_number, responseListener,ErrorresponseListener);
+                RegisterRequest registerRequest = new RegisterRequest(
+                        first_name, last_name, email, password, phone_number,
+                        responseListener, ErrorresponseListener);
                 VolleyHelper.getInstance(getApplicationContext());
-                VolleyHelper vh = VolleyHelper.getInstance(getApplicationContext());
+                VolleyHelper vh = VolleyHelper
+                        .getInstance(getApplicationContext());
                 vh.getRequestQueue().add(registerRequest);
-
 
             }
         });
 
     }
 
-    private void handleNewLocation(Location location) {
+    private void handleNewLocation(Location location)
+    {
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
@@ -137,42 +149,59 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         Log.d("Latitude", String.valueOf(currentLatitude));
     }
 
-
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected(
+            @Nullable
+                    Bundle bundle)
+    {
         Log.i(TAG, "Location services connected.");
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location == null) {
+        Location location = LocationServices.FusedLocationApi
+                .getLastLocation(mGoogleApiClient);
+        if (location == null)
+        {
             Log.i(TAG, "idk wtf is the problem !");
             // Blank for a moment...
         }
-        else {
+        else
+        {
             Log.i(TAG, "Handling the locations.");
             handleNewLocation(location);
 
-        };
+        }
+        ;
 
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended(int i)
+    {
         Log.i(TAG, "Location services suspended. Please reconnect.");
 
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
-            try {
+    public void onConnectionFailed(
+            @NonNull
+                    ConnectionResult connectionResult)
+    {
+        if (connectionResult.hasResolution())
+        {
+            try
+            {
                 // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-            } catch (IntentSender.SendIntentException e) {
+                connectionResult.startResolutionForResult(this,
+                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
+            }
+            catch (IntentSender.SendIntentException e)
+            {
                 e.printStackTrace();
             }
-        } else {
-            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
-
+        else
+        {
+            Log.i(TAG, "Location services connection failed with code "
+                    + connectionResult.getErrorCode());
+        }
 
     }
 }

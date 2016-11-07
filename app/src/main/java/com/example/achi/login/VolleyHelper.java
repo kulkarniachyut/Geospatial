@@ -6,7 +6,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-public class VolleyHelper {
+public class VolleyHelper
+{
     private Context appContext = null;
     private RequestQueue requestQueue = null;
     private static VolleyHelper instance = null;
@@ -20,7 +21,7 @@ public class VolleyHelper {
 
     public static synchronized VolleyHelper getInstance(Context context)
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = new VolleyHelper(context);
         }

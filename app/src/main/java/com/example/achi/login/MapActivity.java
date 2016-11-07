@@ -1,9 +1,7 @@
 package com.example.achi.login;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -25,17 +23,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     private GoogleMap mMap;
-    FragmentTransaction fragmentTransaction ;
+    FragmentTransaction fragmentTransaction;
     NavigationView navigationView;
 
     private void makeStatusBarTranslucent()
     {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        {
             Window w = getWindow(); // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -49,19 +50,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close
-        );
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                toolbar, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.commit();
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-//        fragmentTransaction.add(R.id.main_container,new MapFragment());
-//        getSupportActionBar().setTitle("Profile");
+        //        fragmentTransaction.add(R.id.main_container,new MapFragment());
+        //        getSupportActionBar().setTitle("Profile");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -69,15 +65,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-
     @Override
-    protected void onPostCreate (Bundle savedInstanceState){
+    protected void onPostCreate(Bundle savedInstanceState)
+    {
         super.onPostCreate(savedInstanceState);
         actionBarDrawerToggle.syncState();
 
     }
-
-
 
     /**
      * Manipulates the map once available.
@@ -96,16 +90,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(34.0224, -118.2851);
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.addMarker(
+                new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
-        mMap.addCircle(new CircleOptions()
-                .center(sydney)
-                .radius(300)
-                .strokeWidth(0)
-                .fillColor(0x25808080)
-        );
-        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.ub_map ));
+        mMap.addCircle(
+                new CircleOptions().center(sydney).radius(300).strokeWidth(0)
+                        .fillColor(0x25808080));
+        mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(this, R.raw.ub_map));
     }
 }
