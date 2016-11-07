@@ -1,8 +1,10 @@
 package com.example.achi.login;
 
 import android.graphics.Color;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     private GoogleMap mMap;
+    FragmentTransaction fragmentTransaction ;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,7 +31,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -36,6 +43,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 R.string.drawer_close
         );
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.commit();
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+//        fragmentTransaction.add(R.id.main_container,new MapFragment());
+//        getSupportActionBar().setTitle("Profile");
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

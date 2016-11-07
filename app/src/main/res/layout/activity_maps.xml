@@ -8,10 +8,13 @@
     android:id="@+id/drawer_layout"
     tools:context="com.example.achi.login.MapActivity"
     >
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/main_container">
+
             <fragment
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -20,22 +23,26 @@
                 >
 
                 <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/toolbarTransparent"
-                android:title=""
-                android:titleTextColor="@android:color/transparent" />
+                    android:id="@+id/toolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/toolbarTransparent"
+                    android:title=""
+                    android:titleTextColor="@android:color/transparent" />
 
             </fragment>
-    </FrameLayout>
 
-    <android.support.design.widget.NavigationView
+        </FrameLayout>
+
+
+        <android.support.design.widget.NavigationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:id="@+id/navigation_view"
         map:menu="@menu/drawer_meanu"
         map:headerLayout="@layout/navigation_drawer_header"
 
         ></android.support.design.widget.NavigationView>
+
 </android.support.v4.widget.DrawerLayout>
