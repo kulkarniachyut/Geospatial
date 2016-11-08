@@ -1,4 +1,4 @@
-package com.example.achi.login;
+package com.nightson;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
+import com.nightson.R;
 
 /**
  * Created by achi on 11/5/16.

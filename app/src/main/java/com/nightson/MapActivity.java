@@ -1,4 +1,4 @@
-package com.example.achi.login;
+package com.nightson;
 
 import android.os.Build;
 import android.support.design.widget.NavigationView;
@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 
 import android.view.Window;
 import android.view.WindowManager;
+import com.nightson.R;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
