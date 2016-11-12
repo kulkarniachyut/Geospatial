@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.google.android.gms.maps.MapFragment;
 import com.nightson.R;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -54,12 +56,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 toolbar, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.commit();
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        //        fragmentTransaction.add(R.id.main_container,new MapFragment());
-        //        getSupportActionBar().setTitle("Profile");
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
