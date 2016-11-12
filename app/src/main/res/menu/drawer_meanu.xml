@@ -3,16 +3,17 @@
       xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
 
-        <item
+        <item   android:id="@+id/menugroup"
                 android:title="Profile"
                 android:icon="@drawable/achi"
         >
             <menu>
-                <item
+                <item   android:id="@+id/profile"
                         android:title="Change Password"
                 >
                 </item>
                 <item
+                        android:id="@+id/photo"
                         android:title="Update Profile Picture"
                 >
                 </item>

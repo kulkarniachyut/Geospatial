@@ -1,29 +1,38 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              xmlns:map="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:id="@+id/map2"
+
+
              >
 
     <!-- TODO: Update blank fragment layout -->
-
     <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-        android:name="com.google.android.gms.maps.SupportMapFragment">
-            <!--android:id="@+id/map2"-->
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map2"
+        class="com.google.android.gms.maps.SupportMapFragment">
 
-            <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
-    <!--&gt;-->
-
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/toolbarTransparent"
-                android:title=""
-                android:titleTextColor="@android:color/transparent"/>
 
     </fragment>
-</LinearLayout>
+
+    <!--<fragment-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+            <!--&gt;-->
+
+            <!--&lt;!&ndash;android:name="com.google.android.gms.maps.SupportMapFragment"&ndash;&gt;-->
+    <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<android.support.v7.widget.Toolbar&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/toolbar"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="@color/toolbarTransparent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:title=""&ndash;&gt;-->
+                <!--&lt;!&ndash;android:titleTextColor="@android:color/transparent"/>&ndash;&gt;-->
+
+    <!--</fragment>-->
+</FrameLayout>

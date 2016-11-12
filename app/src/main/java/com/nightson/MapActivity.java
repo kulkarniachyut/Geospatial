@@ -1,14 +1,20 @@
 package com.nightson;
 
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -20,14 +26,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
+public class MapActivity extends AppCompatActivity
 {
     Toolbar toolbar;
     DrawerLayout drawerLayout;
-    ActionBarDrawerToggle actionBarDrawerToggle;
-    private GoogleMap mMap;
-    FragmentTransaction fragmentTransaction;
     NavigationView navigationView;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+
+
+
+
+
 
     private void makeStatusBarTranslucent()
     {
@@ -45,22 +54,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        this.makeStatusBarTranslucent();
+//        this.makeStatusBarTranslucent();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 toolbar, R.string.drawer_open, R.string.drawer_close);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        setupDrawerContent(navigationView);
+//        navigationView.getMenu().getItem(0).setChecked(true);
+        selectDrawerItem(navigationView.getMenu().getItem(0));
+//        navigationView.setCheckedItem(id);
+//        selectDrawerItem(navigationView.getMenu().getItem(0));
+//
+//
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -69,6 +86,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onPostCreate(savedInstanceState);
         actionBarDrawerToggle.syncState();
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -80,23 +104,76 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
-        mMap = googleMap;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // The action bar home/up action should open or close the drawer.
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                drawerLayout.openDrawer(GravityCompat.START);
+//                return true;
+//        }
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(34.0224, -118.2851);
 
-        mMap.addMarker(
-                new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
-        mMap.addCircle(
-                new CircleOptions().center(sydney).radius(300).strokeWidth(0)
-                        .fillColor(0x25808080));
-        mMap.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(this, R.raw.ub_map));
+        return super.onOptionsItemSelected(item);
     }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Fragment fragment = null;
+        Class fragmentClass;
+        switch(menuItem.getItemId()) {
+            case R.id.profile:
+                fragmentClass = ProfileFragment.class;
+                Log.d("map" , String.valueOf(menuItem.getItemId()));
+                break;
+//            case R.id.profile:
+//                Log.d("profile" , String.valueOf(menuItem.getItemId()));
+//                fragmentClass = ProfileFragment.class;
+//                break;
+//            case R.id.password:
+//                fragmentClass = ThirdFragment.class;
+//                break;
+            default:
+                Log.d("default" , String.valueOf(menuItem.getItemId()));
+                fragmentClass = MapFragmentNew.class;
+        }
+
+       try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
+//        fragmentManager.beginTransaction().replace(R.id.main_container, fragment).commit();
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        drawerLayout.closeDrawers();
+    }
+
+
+
+
+
 }
