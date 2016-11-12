@@ -17,22 +17,4 @@
 
     </fragment>
 
-    <!--<fragment-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
-            <!--&gt;-->
-
-            <!--&lt;!&ndash;android:name="com.google.android.gms.maps.SupportMapFragment"&ndash;&gt;-->
-    <!--&lt;!&ndash;&gt;&ndash;&gt;-->
-
-        <!--&lt;!&ndash;<android.support.v7.widget.Toolbar&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/toolbar"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:background="@color/toolbarTransparent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:title=""&ndash;&gt;-->
-                <!--&lt;!&ndash;android:titleTextColor="@android:color/transparent"/>&ndash;&gt;-->
-
-    <!--</fragment>-->
 </FrameLayout>

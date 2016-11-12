@@ -142,10 +142,10 @@ public class MapActivity extends AppCompatActivity
                 fragmentClass = ProfileFragment.class;
                 Log.d("map" , String.valueOf(menuItem.getItemId()));
                 break;
-//            case R.id.profile:
-//                Log.d("profile" , String.valueOf(menuItem.getItemId()));
-//                fragmentClass = ProfileFragment.class;
-//                break;
+            case R.id.home:
+                Log.d("Home" , String.valueOf(menuItem.getItemId()));
+                fragmentClass = MapFragmentNew.class;
+                break;
 //            case R.id.password:
 //                fragmentClass = ThirdFragment.class;
 //                break;
@@ -162,8 +162,8 @@ public class MapActivity extends AppCompatActivity
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
-//        fragmentManager.beginTransaction().replace(R.id.main_container, fragment).commit();
+//        fragmentManager.beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.main_container, fragment).commit();
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
         // Set action bar title
