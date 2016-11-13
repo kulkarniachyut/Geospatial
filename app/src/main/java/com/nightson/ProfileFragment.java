@@ -70,6 +70,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
 
                 break;
             case R.id.uploadPicture:
+                Intent registerIntent2 = new Intent(getActivity(),
+                        UploadImage.class);
+                startActivity(registerIntent2);
 
 
                 break;
