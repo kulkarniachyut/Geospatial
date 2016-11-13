@@ -16,6 +16,16 @@
             android:id="@+id/imageView2"/>
 
     <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="50dp"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:id="@+id/changePassword"/>
+
+    <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
@@ -23,17 +33,7 @@
             android:clickable="true"
             app:fabSize="normal"
             app:srcCompat="@android:drawable/ic_menu_camera"
-            android:id="@+id/floatingActionButton"/>
-
-    <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:layout_margin="50dp"
-            android:clickable="true"
-            app:fabSize="normal"
-            app:srcCompat="@android:drawable/ic_menu_info_details"
-            android:id="@+id/floatingActionButton2"/>
+            android:id="@+id/uploadPicture"/>
 
     <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -42,6 +42,7 @@
             android:layout_margin="50dp"
             android:clickable="true"
             app:fabSize="normal"
-            app:srcCompat="@android:drawable/ic_menu_edit"
-            android:id="@+id/floatingActionButton3"/>
+            app:srcCompat="@android:drawable/ic_input_add"
+            android:id="@+id/addEvents"/>
+
 </FrameLayout>

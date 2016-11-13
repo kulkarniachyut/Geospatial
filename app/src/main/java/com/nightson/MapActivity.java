@@ -58,8 +58,7 @@ public class MapActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
@@ -67,17 +66,8 @@ public class MapActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         setupDrawerContent(navigationView);
-//        navigationView.getMenu().getItem(0).setChecked(true);
         selectDrawerItem(navigationView.getMenu().getItem(0));
-//        navigationView.setCheckedItem(id);
-//        selectDrawerItem(navigationView.getMenu().getItem(0));
-//
-//
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
     }
 
     @Override
