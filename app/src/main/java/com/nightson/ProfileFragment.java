@@ -1,21 +1,35 @@
 package com.nightson;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import com.nightson.R;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener
+
 {
+
+
     FloatingActionButton changePassword;
     FloatingActionButton updatePicure;
     FloatingActionButton addEvent;
+    private static int RESULT_LOAD_IMAGE = 1;
 
     public ProfileFragment()
     {
@@ -48,13 +62,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
 
         switch (v.getId()) {
             case R.id.changePassword:
+                Intent registerIntent = new Intent(getActivity(),
+                        PasswordChange.class);
+                startActivity(registerIntent);
                 
 //                edttxt_projectname.sesdfsdtText("Test Submit!#@%!#%");
 
                 break;
             case R.id.uploadPicture:
 
-//                edttxt_projectname.setText("Test Submit!#@%!#%");
 
                 break;
             case R.id.addEvents:
@@ -68,6 +84,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
 
         // implements your things
     }
+
+
 
 
 

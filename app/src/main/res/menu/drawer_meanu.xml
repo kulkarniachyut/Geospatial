@@ -27,10 +27,9 @@
         </item>
         <item
                 android:title="Events"
+                android:id="@+id/events"
                 android:icon="@drawable/achi"
         >
         </item>
-
     </group>
-
 </menu>

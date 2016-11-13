@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="353dp"
             app:srcCompat="@drawable/achi"
-            android:id="@+id/imageView2"/>
+            android:id="@+id/profileView"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

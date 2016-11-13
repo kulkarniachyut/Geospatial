@@ -1,6 +1,7 @@
 package com.nightson;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -21,9 +25,22 @@ public class LoginActivity extends AppCompatActivity
 
             @Override
             public void onResponse(String response)
-            {
+            {   JSONObject jsonObj = null ;
+                try {
+                   jsonObj= new JSONObject(response);
+                    SharedPreferences.Editor e = getSharedPreferences(Constants.PREF_FILE_NAME,0).edit();
+                    e.putString("x-auth-token" ,jsonObj.getString("token"));
+                    e.commit();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 Log.d("Working API", "3");
                 Log.d("response", response);
+                Intent registerIntent = new Intent(LoginActivity.this,
+                        MapActivity.class);
+                LoginActivity.this.startActivity(registerIntent);
 
             }
         };

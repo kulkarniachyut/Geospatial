@@ -16,7 +16,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB5ODxq0sGWJ53KOryt1RSaVRlFnW53Eks" />
 
-        <activity android:name=".MapActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LogoActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".MapActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".PasswordChange"></activity>
     </application>

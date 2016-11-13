@@ -2,7 +2,7 @@ package com.nightson;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +20,7 @@ public class MapActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -95,9 +96,9 @@ public class MapActivity extends AppCompatActivity
                 Log.d("Home", String.valueOf(menuItem.getItemId()));
                 fragmentClass = MapFragmentNew.class;
                 break;
-            //            case R.id.password:
-            //                fragmentClass = ThirdFragment.class;
-            //                break;
+            case R.id.events:
+                fragmentClass = EventsFragment.class;
+                break;
             default:
                 Log.d("default", String.valueOf(menuItem.getItemId()));
                 fragmentClass = MapFragmentNew.class;
