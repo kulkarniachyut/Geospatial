@@ -1,7 +1,9 @@
 package com.nightson;
 
+import android.app.DownloadManager;
 import android.content.Context;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -33,7 +35,7 @@ public class VolleyHelper
         return this.requestQueue;
     }
 
-    public void add(StringRequest req)
+    public void add(Request req)
     {
         requestQueue.add(req);
     }

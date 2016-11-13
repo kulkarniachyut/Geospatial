@@ -1,25 +1,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
+             xmlns:map="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.nightson.MapFragment">
+>
 
     <!-- TODO: Update blank fragment layout -->
-
     <fragment
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-    >
+            android:id="@+id/map2"
+            class="com.google.android.gms.maps.SupportMapFragment">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/toolbarTransparent"
-                android:title=""
-                android:titleTextColor="@android:color/transparent"/>
 
     </fragment>
+
 </FrameLayout>

@@ -9,40 +9,34 @@
         tools:context="com.nightson.MapActivity"
 >
 
-    <FrameLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/main_container">
+            android:orientation="vertical">
 
-        <fragment
+        <include
+                layout="@layout/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-        >
+                android:id="@+id/main_container">
+        </FrameLayout>
 
-            <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/toolbarTransparent"
-                    android:title=""
-                    android:titleTextColor="@android:color/transparent"/>
 
-        </fragment>
-
-    </FrameLayout>
+    </LinearLayout>
 
 
     <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:id="@+id/navigation_view"
-            map:menu="@menu/drawer_meanu"
+            android:background="@android:color/white"
             map:headerLayout="@layout/navigation_drawer_header"
-
-    ></android.support.design.widget.NavigationView>
+            map:menu="@menu/drawer_meanu"/>
 
 </android.support.v4.widget.DrawerLayout>
