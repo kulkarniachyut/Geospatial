@@ -46,16 +46,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapFragmentNew extends Fragment
+public class AddressFragment extends Fragment
         implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener
+        GoogleApiClient.OnConnectionFailedListener
 {
     private GoogleMap mMap;
     Marker currLocationMarker;
     private GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
 
-    public MapFragmentNew()
+    public AddressFragment()
     {
 
     }
@@ -90,7 +90,6 @@ public class MapFragmentNew extends Fragment
         mMap.setMapStyle(MapStyleOptions
                 .loadRawResourceStyle(getActivity().getBaseContext(),
                         R.raw.night_map));
-        mMap.setOnMarkerClickListener(this);
 
         //stop location updates
         if (mGoogleApiClient != null)
@@ -98,122 +97,9 @@ public class MapFragmentNew extends Fragment
             LocationServices.FusedLocationApi
                     .removeLocationUpdates(mGoogleApiClient, this);
         }
-        loadnearbyparties(location, mMap.getCameraPosition().zoom);
+
 
     }
-
-    private void loadnearbyparties(Location location, float zoomlev)
-    {
-        double lat = location.getLatitude();
-        double lng = location.getLongitude();
-        double radius = Math.exp((16 - zoomlev) * Math.log(2)) * 500;
-        Log.d("radius", Double.toString(radius));
-        // volley code
-        String url =
-                "http://vswamy.net:8888/search?latitude=" + lat + "&longitude="
-                        + lng + "&radius=40000";
-
-        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET,
-                url, null, new Response.Listener<JSONArray>()
-        {
-            @Override
-            public void onResponse(JSONArray response)
-            {
-                double latitude, longitude;
-                String party_name;
-                // the response is already constructed as a JSONObject!
-                Log.d(" responsesindhu ", response.toString());
-                try
-                {
-                    for (int i = 0; i < response.length(); i++)
-                    {
-                        JSONObject jsonObject = response.getJSONObject(i);
-                        String loc = jsonObject.getString("location");
-                        String arr[] = loc.split(",");
-                        longitude = Double.parseDouble((arr[1].split("\\["))[1]);
-                        latitude = Double.parseDouble(arr[2].substring(0,arr[2].length()-2));
-                        party_name = jsonObject.getString("name");
-
-                        // adding marker
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        LatLng latLng = new LatLng(latitude, longitude);
-                        markerOptions.position(latLng);
-                        markerOptions.title(party_name);
-
-                        mMap.addMarker(markerOptions);
-                    }
-                }
-                catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener()
-        {
-
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                error.printStackTrace();
-            }
-        })
-        {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError
-            {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("x-auth-token",
-                        "$2b$12$freZc8ldmGXka/5O40YDcuZ8uqQ.WwzVaDsFB0imjX3BaTqV0AlTC");
-                return headers;
-            }
-        };
-
-        VolleyHelper.getInstance(getActivity().getBaseContext())
-                .add(jsonRequest);
-
-    }
-
-    private void showPopup(final Activity context, Marker marker) {
-        Projection proj = mMap.getProjection();
-        Point marker_point = proj.toScreenLocation(marker.getPosition());
-        int popupWidth = 700;
-        int popupHeight = 700;
-
-        // Inflate the popup_layout.xml
-        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup_1);
-        LayoutInflater layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.content_popup, viewGroup);
-
-        // Creating the PopupWindow
-        final PopupWindow popup = new PopupWindow(context);
-        popup.setContentView(layout);
-        popup.setWidth(popupWidth);
-        popup.setHeight(popupHeight);
-        popup.setFocusable(true);
-        ((TextView)popup.getContentView().findViewById(R.id.txtView)).setText(marker.getTitle());
-
-        // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
-        int OFFSET_X = 10;
-        int OFFSET_Y = 40;
-
-        // Clear the default translucent background
-        popup.setBackgroundDrawable(new BitmapDrawable());
-
-        // Displaying the popup at the specified location, + offsets.
-        popup.showAtLocation(layout, Gravity.NO_GRAVITY, marker_point.x -OFFSET_X, marker_point.y + OFFSET_Y);
-
-    }
-
-
-    public boolean onMarkerClick(Marker marker) {
-        marker.hideInfoWindow();
-        showPopup(getActivity(),marker);
-        //Log.i("GoogleMapActivity", "onMarkerClick");
-        //Toast.makeText(getActivity(),"Marker Clicked: " + marker.getTitle(), Toast.LENGTH_LONG).show();
-        return true;
-    }
-
 
     protected synchronized void buildGoogleApiClient()
     {
@@ -227,7 +113,7 @@ public class MapFragmentNew extends Fragment
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-            String permissions[], int[] grantResults)
+                                           String permissions[], int[] grantResults)
     {
         //  Toast.makeText(this, requestCode, Toast.LENGTH_LONG).show();
         switch (requestCode)
@@ -303,7 +189,7 @@ public class MapFragmentNew extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState)
+                             Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         //View view = inflater.inflate(R.layout.map_view, vg, false);
@@ -314,30 +200,16 @@ public class MapFragmentNew extends Fragment
         // .findFragmentById(R.id.map2);
         //        if(mapFragment!=null)
         mapFragment.getMapAsync(this);
-        FloatingActionButton btn;
-        btn = (FloatingActionButton) view.findViewById(R.id.addEvents);
-        btn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent i=new Intent(getActivity(),AddEventActivity.class);
-                startActivity(i);
-
-            }
-        });
         return view;
     }
 
     @Override
     public void onViewCreated(View view,
-            @Nullable
-                    Bundle savedInstanceState)
+                              @Nullable
+                                      Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
 
-        //        MapFragment mFragment = (MapFragment)getChildFragmentManager().findFragmentById(R.id.map2);
-        //        mFragment.getMapAsync(this);
     }
 
     @Override
