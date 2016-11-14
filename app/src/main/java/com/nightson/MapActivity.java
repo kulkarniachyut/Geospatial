@@ -1,5 +1,6 @@
 package com.nightson;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -85,7 +86,7 @@ public class MapActivity extends AppCompatActivity
     {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
-        Class fragmentClass;
+        Class fragmentClass = null;
         switch (menuItem.getItemId())
         {
             case R.id.profile:
@@ -97,7 +98,10 @@ public class MapActivity extends AppCompatActivity
                 fragmentClass = MapFragmentNew.class;
                 break;
             case R.id.events:
-                fragmentClass = EventsFragment.class;
+//                fragmentClass = EventsFragment.class;
+                Intent registerIntent = new Intent(this,
+                        EventsTabActivity.class);
+                startActivity(registerIntent);
                 break;
             default:
                 Log.d("default", String.valueOf(menuItem.getItemId()));
@@ -106,6 +110,7 @@ public class MapActivity extends AppCompatActivity
 
         try
         {
+            if(fragmentClass!=null)
             fragment = (Fragment) fragmentClass.newInstance();
         }
         catch (Exception e)
@@ -113,11 +118,13 @@ public class MapActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_container, fragment).commit();
-        menuItem.setChecked(true);
-        setTitle(menuItem.getTitle());
-        drawerLayout.closeDrawers();
+        if(fragment!=null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_container, fragment).commit();
+            menuItem.setChecked(true);
+            setTitle(menuItem.getTitle());
+            drawerLayout.closeDrawers();
+        }
     }
 }
