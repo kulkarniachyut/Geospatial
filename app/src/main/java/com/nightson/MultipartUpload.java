@@ -34,7 +34,7 @@ public class MultipartUpload extends Request<String> {
 //    private MultipartEntity entity = new MultipartEntity();
 
 
-    MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+    private MultipartEntityBuilder entity = MultipartEntityBuilder.create();
     HttpEntity httpentity;
     private static final String REGISTER_REQUEST_URL = "http://vswamy.net:8888/upload";
     private static final String FILE_PART_NAME = "file_name";
@@ -56,8 +56,8 @@ public class MultipartUpload extends Request<String> {
         mStringPart = token;
 //        entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         buildMultipartEntity();
-//        httpentity = entity.build();
-//        entity = new  MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+        httpentity = entity.build();
+//        entity = new MultipartEntityBuilder(HttpMultipartMode.BROWSER_COMPATIBLE);
 
 
 
