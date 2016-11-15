@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 
 public class MapActivity extends AppCompatActivity
+
 {
     Toolbar toolbar;
     DrawerLayout drawerLayout;
