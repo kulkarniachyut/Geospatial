@@ -27,6 +27,7 @@ xmlns:tools="http://schemas.android.com/tools" package="com.nightson">
     <activity android:name=".RegisterActivity" />
     <activity android:name=".PasswordChange" />
     <activity android:name=".UploadImage" />
+    <activity android:name=".EventsTabActivity" />
     <activity android:name=".PopupActivity" android:label="@string/title_activity_popup"
         android:theme="@style/AppTheme" />
     <activity android:name=".EventActivity" android:label="@string/title_activity_event"
