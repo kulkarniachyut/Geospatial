@@ -1,5 +1,65 @@
 package com.nightson;
 
+/**
+ * Created by achi on 11/14/16.
+ */
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,7 +106,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapFragmentNew extends Fragment
+public class AddMapFragment extends Fragment
         implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener
 {
@@ -55,7 +115,7 @@ public class MapFragmentNew extends Fragment
     private GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
 
-    public MapFragmentNew()
+    public AddMapFragment()
     {
 
     }
@@ -81,26 +141,24 @@ public class MapFragmentNew extends Fragment
                 .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         currLocationMarker = mMap.addMarker(markerOptions);
 
-
-
         //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-        mMap.addCircle(
-                new CircleOptions().center(latLng).radius(300).strokeWidth(0)
-                        .fillColor(0x25808080));
-        mMap.setMapStyle(MapStyleOptions
-                .loadRawResourceStyle(getActivity().getBaseContext(),
-                        R.raw.night_map));
-        mMap.setOnMarkerClickListener(this);
-
-        //stop location updates
-        if (mGoogleApiClient != null)
-        {
-            LocationServices.FusedLocationApi
-                    .removeLocationUpdates(mGoogleApiClient, this);
-        }
-        loadnearbyparties(location, mMap.getCameraPosition().zoom);
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+//        mMap.addCircle(
+//                new CircleOptions().center(latLng).radius(300).strokeWidth(0)
+//                        .fillColor(0x25808080));
+//        mMap.setMapStyle(MapStyleOptions
+//                .loadRawResourceStyle(getActivity().getBaseContext(),
+//                        R.raw.night_map));
+//        mMap.setOnMarkerClickListener(this);
+//
+//        //stop location updates
+//        if (mGoogleApiClient != null)
+//        {
+//            LocationServices.FusedLocationApi
+//                    .removeLocationUpdates(mGoogleApiClient, this);
+//        }
+//        loadnearbyparties(location, mMap.getCameraPosition().zoom);
 
     }
 
@@ -210,7 +268,7 @@ public class MapFragmentNew extends Fragment
 
     public boolean onMarkerClick(Marker marker) {
         marker.hideInfoWindow();
-        showPopup(getActivity(),marker);
+//        showPopup(getActivity(),marker);
         //Log.i("GoogleMapActivity", "onMarkerClick");
         //Toast.makeText(getActivity(),"Marker Clicked: " + marker.getTitle(), Toast.LENGTH_LONG).show();
         return true;
@@ -229,7 +287,7 @@ public class MapFragmentNew extends Fragment
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-            String permissions[], int[] grantResults)
+                                           String permissions[], int[] grantResults)
     {
         //  Toast.makeText(this, requestCode, Toast.LENGTH_LONG).show();
         switch (requestCode)
@@ -305,7 +363,7 @@ public class MapFragmentNew extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState)
+                             Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         //View view = inflater.inflate(R.layout.map_view, vg, false);
@@ -333,8 +391,8 @@ public class MapFragmentNew extends Fragment
 
     @Override
     public void onViewCreated(View view,
-            @Nullable
-                    Bundle savedInstanceState)
+                              @Nullable
+                                      Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
 

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -33,6 +35,23 @@ public class AddEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+//                Fragment fragment = null;
+//                Class fragmentClass = null;
+                Class fragmentClass = AddMapFragment.class;
+                Fragment fragment = null;
+                try {
+                     fragment = (Fragment) fragmentClass.newInstance();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_container, fragment).commit();
+//                menuItem.setChecked(true);
+//                setTitle(menuItem.getTitle());
+
                 //Intent i=new Intent(this,AddEventActivity.class);
                 //startActivity(i);
 
