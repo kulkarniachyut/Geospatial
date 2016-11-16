@@ -158,7 +158,6 @@ public class EventsTabActivity extends AppCompatActivity {
                 case 0:
                     return "Owned";
                 case 1:
-                    RsvpEventsTab tab2 = new RsvpEventsTab();
                     return "Rsvp'd";
                 case 2:
                     return "Modify";

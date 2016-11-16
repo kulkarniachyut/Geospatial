@@ -6,30 +6,30 @@
     android:background="@android:color/darker_gray"
     android:padding="10dp">
 
-    <TextView
+    <EditText
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ownedname1" />
 
-    <TextView
+    <EditText
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/starttime1" />
 
-    <TextView
+    <EditText
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/endtime1" />
 
-    <TextView
+    <EditText
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/latitude" />
-    <TextView
+    <EditText
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,5 +40,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/done" />
-
+    <Button
+        android:text="Save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Edit" />
 </LinearLayout>

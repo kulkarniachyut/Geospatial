@@ -5,14 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.Menu;
-import com.nightson.R;
 
-/**
- * Created by achi on 11/5/16.
- */
 
 public class LogoActivity extends AppCompatActivity
 {
@@ -24,17 +17,18 @@ public class LogoActivity extends AppCompatActivity
         setContentView(R.layout.activity_logo);
         SharedPreferences sharedPref = this
                 .getPreferences(Context.MODE_PRIVATE);
-        String token = sharedPref.getString("XauthToken", null);
+        String token = sharedPref.getString("x-auth-Token", null);
         if (token != null)
         {
-
+            Intent intent = new Intent(this, MapActivity.class);
+            startActivity(intent);
         }
         else
         {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
+        finish();
     }
 
 }

@@ -16,12 +16,22 @@ public class OwnedEventObject {
     String mlatitude;
     String mlongitude;
 
-    public OwnedEventObject(Date mStartDate, Date mEndTime, String mName , String mlatitude, String mlongitude) {
+    String mEventId;
+
+
+    public OwnedEventObject(Date mStartDate, Date mEndTime, String mName , String mlatitude, String mlongitude, String mEventId) {
         this.mStartDate = mStartDate;
         this.mEndTime = mEndTime;
         this.mName = mName;
         this.mlatitude = mlatitude;
+
         this.mlongitude = mlongitude;
+        this.mEventId = mEventId;
+    }
+
+
+    public String getmEventId() {
+        return mEventId;
     }
 
 

@@ -56,19 +56,8 @@ Fragment event_fragment, map_fragment;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         FragmentManager fm = getSupportFragmentManager();
-
-        /*fragment = fm.findFragmentById(R.id.Fragment1);
-        if (fragment == null) {
-            FragmentTransaction ft = fm.beginTransaction();
-            fragment =new AddressFragment();
-            ft.add(R.id.frag1,fragment,"Fragment1");
-            ft.hide(fragment);
-            ft.commit();
-        }*/
 
         event_fragment = fm.findFragmentById(R.id.Fragment2);
         if (event_fragment == null) {
@@ -128,14 +117,11 @@ Fragment event_fragment, map_fragment;
                 url, null, new Response.Listener<JSONObject>()
         {
             @Override
-            public void onResponse(JSONObject response)
-            {
+            public void onResponse(JSONObject response) {
 
                 // the response is already constructed as a JSONObject!
                 Log.d(" responsesindhu ", response.toString());
-
-                    Log.d("response sindhu",response.toString());
-
+                Log.d("response sindhu", response.toString());
             }
         }, new Response.ErrorListener()
         {
@@ -152,17 +138,12 @@ Fragment event_fragment, map_fragment;
             {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("x-auth-token",
-                        "$2b$12$freZc8ldmGXka/5O40YDcuZ8uqQ.WwzVaDsFB0imjX3BaTqV0AlTC");
+                        "$2b$12$freZc8ldmGXka/5O40YDcuZ8uqQ.WwzVaDsFB0imjX3BaTqV0AlTC");  // hard coded.. change it
                 return headers;
             }
         };
-
         VolleyHelper.getInstance(this.getBaseContext())
                 .add(jsonRequest);
-
         this.finish();
-
-
     }
-
 }
