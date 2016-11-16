@@ -43,7 +43,7 @@ public class OwnedEventsTab extends Fragment{
             {
                 System.out.println("Working API");
                 Log.d("Working API", "3");
-//                Log.d("response", response);
+                 Log.d("response", response);
                 Context context = getContext();
                 CharSequence text = "Owned Events Tab";
                 int duration = Toast.LENGTH_SHORT;
@@ -65,6 +65,7 @@ public class OwnedEventsTab extends Fragment{
                         String stime = obj.getString("start_time");
                         String location1 = obj.getString("location");
                         Log.d("location" ,location1);
+                        String id = obj.getString("id");
 
 //                        JSONObject loc = location1.getJSONObject(0);
 //                        String cordinatess = loc.getString("coordinates");
@@ -86,7 +87,7 @@ public class OwnedEventsTab extends Fragment{
 
                         Date StartTime = new Date(Long.parseLong(stime) * 1000);
                         Date endTime = new Date(Long.parseLong(etime) * 1000);
-                        mArrayList.add(new OwnedEventObject(StartTime, endTime , name , latitude,longitude));
+                        mArrayList.add(new OwnedEventObject(StartTime, endTime , name , latitude,longitude,id));
 
                     }
 
@@ -98,7 +99,7 @@ public class OwnedEventsTab extends Fragment{
                 ListView mListView = (ListView) rootView.findViewById(R.id.ownedlistview);
 
 //                        mArrayList.add(new OwnedEventObject(new Date(),new Date(),"Achyut","1","2"));
-                        OwnedAdapter mAdapter = new OwnedAdapter(getContext(),mArrayList);
+                        OwnedAdapter mAdapter = new OwnedAdapter(getContext(),mArrayList,true);
                         mListView.setAdapter(mAdapter);
 
             }

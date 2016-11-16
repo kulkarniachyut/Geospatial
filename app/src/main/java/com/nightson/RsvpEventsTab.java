@@ -59,6 +59,7 @@ public class RsvpEventsTab extends Fragment{
                     if(jarray.length() >0 ) {
                         for (int i=0;i<jarray.length();i++){
                             JSONObject obj = (jarray.getJSONObject(i));
+                            String id = obj.getString("id");
                             String name = obj.getString("name");
                             String etime = obj.getString("end_time");
                             String stime = obj.getString("start_time");
@@ -85,7 +86,7 @@ public class RsvpEventsTab extends Fragment{
 
                             Date StartTime = new Date(Long.parseLong(stime) * 1000);
                             Date endTime = new Date(Long.parseLong(etime) * 1000);
-                            mArrayList.add(new OwnedEventObject(StartTime, endTime , name , latitude,longitude));
+                            mArrayList.add(new OwnedEventObject(StartTime, endTime , name , latitude,longitude,id));
                     }
 
                     }
@@ -96,7 +97,7 @@ public class RsvpEventsTab extends Fragment{
                         String latitude = "110";
                         String longitude = "-118";
 
-                        mArrayList.add(new OwnedEventObject(StartTime, endTime , name , latitude,longitude));
+                        mArrayList.add(new OwnedEventObject(StartTime, endTime , name , latitude,longitude,"1"));
                     }
 
                 } catch (JSONException e) {
@@ -107,7 +108,7 @@ public class RsvpEventsTab extends Fragment{
                 ListView mListView = (ListView) rootView.findViewById(R.id.ownedlistview);
 
 //                        mArrayList.add(new OwnedEventObject(new Date(),new Date(),"Achyut","1","2"));
-                OwnedAdapter kAdapter = new OwnedAdapter(getContext(),mArrayList);
+                OwnedAdapter kAdapter = new OwnedAdapter(getContext(),mArrayList,false);
                 mListView.setAdapter(kAdapter);
 
             }
