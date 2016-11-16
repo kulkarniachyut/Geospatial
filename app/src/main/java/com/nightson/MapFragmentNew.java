@@ -54,6 +54,7 @@ public class MapFragmentNew extends Fragment
     Marker currLocationMarker;
     private GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
+    HashMap<Marker, JSONObject> map = new HashMap<Marker, JSONObject>();
 
     public MapFragmentNew()
     {
@@ -140,7 +141,10 @@ public class MapFragmentNew extends Fragment
                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                         markerOptions.position(latLng);
                         markerOptions.title(party_name);
-                        mMap.addMarker(markerOptions);
+
+                        Marker x = mMap.addMarker(markerOptions);
+                        map.put(x, jsonObject);
+
                     }
                 }
                 catch (JSONException e)
@@ -237,10 +241,22 @@ public class MapFragmentNew extends Fragment
 
     }
 
-
     public boolean onMarkerClick(Marker marker) {
-        marker.hideInfoWindow();
-        showPopup(getActivity(),marker);
+        JSONObject jsob  = map.get(marker);
+        Intent i = new Intent(getActivity(), RsvpDescActivity.class);
+        try {
+            i.putExtra("name" , jsob.getString("name"));
+            i.putExtra("starttime" , jsob.getString("start_time"));
+            i.putExtra("endtime" , jsob.getString("end_time"));
+            i.putExtra("rsvp" , jsob.getInt("rsvp"));
+            i.putExtra("id" , jsob.getString("id"));
+//            i.putExtra("name" , jsob.getString("name"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        startActivity(i);
+//        showPopup(getActivity(),marker);
         return true;
     }
 
