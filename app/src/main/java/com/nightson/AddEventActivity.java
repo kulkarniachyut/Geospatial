@@ -3,6 +3,7 @@ package com.nightson;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -108,6 +109,8 @@ Fragment event_fragment, map_fragment;
 
     @Override
     public void onsubmit(String name, String latlng, String start, String end) {
+        SharedPreferences preferences = this.getSharedPreferences(Constants.PREF_FILE_NAME,0);
+        final String token = preferences.getString("x-auth-token","None");
         String[] splitString = latlng.split("\\:");
         String lat = splitString[0];
         String lng = splitString[1];
@@ -137,8 +140,7 @@ Fragment event_fragment, map_fragment;
             public Map<String, String> getHeaders() throws AuthFailureError
             {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("x-auth-token",
-                        "$2b$12$freZc8ldmGXka/5O40YDcuZ8uqQ.WwzVaDsFB0imjX3BaTqV0AlTC");  // hard coded.. change it
+                headers.put("x-auth-token",token);  
                 return headers;
             }
         };

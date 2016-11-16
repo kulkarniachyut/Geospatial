@@ -3,6 +3,7 @@ package com.nightson;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -109,9 +110,10 @@ public class MapFragmentNew extends Fragment
         double radius = Math.exp((16 - zoomlev) * Math.log(2)) * 500;
         Log.d("radius", Double.toString(radius));
         // volley code
-        String url =
-                "http://vswamy.net:8888/search?latitude=" + lat + "&longitude="
+        String url = "http://vswamy.net:8888/search?latitude=" + lat + "&longitude="
                         + lng + "&radius=20000";
+        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREF_FILE_NAME,0);
+        final String token = preferences.getString("x-auth-token","None");
 
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET,
                 url, null, new Response.Listener<JSONArray>()
@@ -140,6 +142,7 @@ public class MapFragmentNew extends Fragment
                         markerOptions.position(latLng);
                         markerOptions.title(party_name);
 
+
                         mMap.addMarker(markerOptions);
                     }
                 }
@@ -162,8 +165,7 @@ public class MapFragmentNew extends Fragment
             public Map<String, String> getHeaders() throws AuthFailureError
             {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("x-auth-token",
-                        "$2b$12$freZc8ldmGXka/5O40YDcuZ8uqQ.WwzVaDsFB0imjX3BaTqV0AlTC");
+                headers.put("x-auth-token", token);
                 return headers;
             }
         };
