@@ -19,7 +19,8 @@ public class UpdateRsvp extends StringRequest {
     public UpdateRsvp(String id , String token, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super( Method.POST, REGISTER_REQUEST_URL, listener, null);
         params = new HashMap<>();
-        params.put("id", id);
+        params.put("event_id", id);
+
         headers = new HashMap<>();
         headers.put("x-auth-token",token);
 
