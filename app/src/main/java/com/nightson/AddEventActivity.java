@@ -140,7 +140,7 @@ Fragment event_fragment, map_fragment;
             public Map<String, String> getHeaders() throws AuthFailureError
             {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("x-auth-token",token);  
+                headers.put("x-auth-token",token);
                 return headers;
             }
         };
