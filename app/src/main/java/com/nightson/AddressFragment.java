@@ -238,6 +238,7 @@ public class AddressFragment extends Fragment
 
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap)
     {

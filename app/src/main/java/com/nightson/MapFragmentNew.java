@@ -48,7 +48,7 @@ import java.util.Map;
 
 public class MapFragmentNew extends Fragment
         implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener,GoogleMap.OnMapClickListener
+        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMyLocationButtonClickListener,GoogleMap.OnMarkerClickListener,GoogleMap.OnMapClickListener
 {
     private GoogleMap mMap;
     Marker currLocationMarker;
@@ -138,7 +138,7 @@ public class MapFragmentNew extends Fragment
                         MarkerOptions markerOptions = new MarkerOptions();
                         LatLng latLng = new LatLng(latitude, longitude);
                         markerOptions.icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                         markerOptions.position(latLng);
                         markerOptions.title(party_name);
 
@@ -380,10 +380,33 @@ public class MapFragmentNew extends Fragment
     }
 
     @Override
+    public boolean onMyLocationButtonClick()
+    {
+        Location temploc = new Location("");
+        temploc.setLatitude(currLocationMarker.getPosition().latitude);
+        temploc.setLongitude(currLocationMarker.getPosition().longitude);
+        LatLng ll = new LatLng(temploc.getLatitude(),
+                temploc.getLongitude());
+        mMap.clear();
+        // add current location marker after clearing
+        MarkerOptions curloc=new MarkerOptions();
+        curloc.position(ll);
+        curloc.title("Current Location");
+        curloc.icon(BitmapDescriptorFactory
+                .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        mMap.addMarker(curloc);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+        loadnearbyparties(temploc,17);
+        return true;
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
+        mMap.setOnMyLocationButtonClickListener(this);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             if (ContextCompat.checkSelfPermission(getActivity(),
