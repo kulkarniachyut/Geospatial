@@ -47,8 +47,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
         updatePicure = (FloatingActionButton) myView.findViewById(R.id.uploadPicture);
         updatePicure.setOnClickListener(this);
 
-        addEvent = (FloatingActionButton) myView.findViewById(R.id.addEvents);
-        addEvent.setOnClickListener(this);
+//        addEvent = (FloatingActionButton) myView.findViewById(R.id.addEvents);
+//        addEvent.setOnClickListener(this);
 
         return myView;
 

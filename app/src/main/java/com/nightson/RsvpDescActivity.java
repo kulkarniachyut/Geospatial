@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.Date;
+
 public class RsvpDescActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,62 +26,99 @@ public class RsvpDescActivity extends AppCompatActivity {
         String name = getIntent().getStringExtra("name");
         String start = getIntent().getStringExtra("starttime");
         String end = getIntent().getStringExtra("endtime");
+        Date startDate = new Date(Long.parseLong(start) * 1000);
+        Date endDate = new Date(Long.parseLong(end) * 1000);
+
         TextView nameText = (TextView) findViewById(R.id.name);
         nameText.setText(name);
-        TextView startText = (TextView) findViewById(R.id.starttime);
-        startText.setText(start);
-        TextView endText = (TextView) findViewById(R.id.endtime);
-        endText.setText(end);
+
+        EditText startdate = (EditText) findViewById(R.id.startDate);
+        EditText enddate = (EditText) findViewById(R.id.endDate);
+        startdate.setText("Start Date : " + startDate);
+        enddate.setText("End Date : " + endDate);
+
         CheckBox check = (CheckBox) findViewById(R.id.rsvp);
         boolean ischecked = (getIntent().getIntExtra("rsvp" , 0) == 1);
         final String id = getIntent().getStringExtra("id");
 
         check.setChecked(ischecked);
-        if(check.isChecked()) {
+
 
             check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SharedPreferences preferences = getSharedPreferences(Constants.PREF_FILE_NAME,0);
                     final String token = preferences.getString("x-auth-token","None");
-                    Response.Listener<String> responseListener = new Response.Listener<String>()
-                    {
-
-                        @Override
-                        public void onResponse(String response)
+                    Log.d("ischecked", String.valueOf(isChecked));
+                    if(isChecked) {
+                        Response.Listener<String> responseListener = new Response.Listener<String>()
                         {
-                            Log.d("response", response);
-                            Context context = getApplicationContext();
-                            CharSequence text = "Password Updated succesfully !";
-                            int duration = Toast.LENGTH_SHORT;
+                            @Override
+                            public void onResponse(String response)
+                            {
+                                Log.d("response", response);
+                                Context context = getApplicationContext();
+                                CharSequence text = "unRSVP'd";
+                                int duration = Toast.LENGTH_SHORT;
 
-                            Toast toast = Toast.makeText(context, text, duration);
-                            CheckBox check = (CheckBox) findViewById(R.id.rsvp);
-                            check.setChecked(false);
+                                Toast toast = Toast.makeText(context, text, duration);
+                                CheckBox check = (CheckBox) findViewById(R.id.rsvp);
+//                                check.setChecked(false);
 
-                        }
+                            }
 
-                    };
-                    Response.ErrorListener ErrorresponseListener = new Response.ErrorListener()
-                    {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error)
+                        };
+                        Response.ErrorListener ErrorresponseListener = new Response.ErrorListener()
                         {
 
-                            Log.d("Error", String.valueOf(error));
+                            @Override
+                            public void onErrorResponse(VolleyError error)
+                            {
+
+                                Log.d("Error", String.valueOf(error));
 
 
-                        }
+                            }
 
-                    };
-                    Log.d("Token" , token);
-                    UnsubscribeRsvp rsvpEventsRequest = new UnsubscribeRsvp(id,
-                            token, responseListener,ErrorresponseListener );
-                    VolleyHelper.getInstance(getApplicationContext());
-                    VolleyHelper vh = VolleyHelper
-                            .getInstance(getApplicationContext());
-                    vh.getRequestQueue().add(rsvpEventsRequest);
+                        };
+                        Log.d("Token" , token);
+                        Log.d("id" , id);
+                        UpdateRsvp rsvpEventsRequest = new UpdateRsvp(id,
+                                token, responseListener,ErrorresponseListener );
+                        VolleyHelper.getInstance(getApplicationContext());
+                        VolleyHelper vh = VolleyHelper
+                                .getInstance(getApplicationContext());
+                        vh.getRequestQueue().add(rsvpEventsRequest);
+                    }
+                  else {
+                        Response.Listener<String> responseListener1 = new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response)
+                            {
+                                Log.d("response", response);
+                            }
+                        };
+
+                        Response.ErrorListener ErrorresponseListener1 = new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error)
+                            {
+                                Log.d("Error", String.valueOf(error));
+                            }
+
+                        };
+                        Log.d("Token" , token);
+                        Log.d("id" , id);
+                        UnsubscribeRsvp rsvpEventsRequest1 = new UnsubscribeRsvp(id,
+                                token, responseListener1, ErrorresponseListener1 );
+                        VolleyHelper.getInstance(getApplicationContext());
+                        VolleyHelper vh = VolleyHelper
+                                .getInstance(getApplicationContext());
+                        vh.getRequestQueue().add(rsvpEventsRequest1);
+
+                    }
 
 
 
@@ -87,62 +126,6 @@ public class RsvpDescActivity extends AppCompatActivity {
                 }
             });
 
-        }
-        else {
-
-            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SharedPreferences preferences = getSharedPreferences(Constants.PREF_FILE_NAME,0);
-                    final String token = preferences.getString("x-auth-token","None");
-
-                    Response.Listener<String> responseListener = new Response.Listener<String>()
-                    {
-
-                        @Override
-                        public void onResponse(String response)
-                        {
-                            Log.d("response", response);
-                            Context context = getApplicationContext();
-                            CharSequence text = "Password Updated succesfully !";
-                            int duration = Toast.LENGTH_SHORT;
-
-                            Toast toast = Toast.makeText(context, text, duration);
-                            CheckBox check = (CheckBox) findViewById(R.id.rsvp);
-                            check.setChecked(true);
-//                            check.setChecked(1);
-
-                        }
-
-                    };
-
-                    Response.ErrorListener ErrorresponseListener = new Response.ErrorListener()
-                    {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error)
-                        {
-
-                            Log.d("Error", String.valueOf(error));
-
-
-                        }
-
-                    };
-                    Log.d("Token" , token);
-                    UpdateRsvp rsvpEventsRequest = new UpdateRsvp(id,
-                            token, responseListener,ErrorresponseListener );
-                    VolleyHelper.getInstance(getApplicationContext());
-                    VolleyHelper vh = VolleyHelper
-                            .getInstance(getApplicationContext());
-                    vh.getRequestQueue().add(rsvpEventsRequest);
-
-
-
-                }
-            });
-
-        }
 
 
 

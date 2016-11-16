@@ -17,9 +17,10 @@ public class UnsubscribeRsvp extends StringRequest {
 
 
     public UnsubscribeRsvp(String id , String token, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        super( Method.DELETE, REGISTER_REQUEST_URL, listener, null);
+        super( Method.PUT, REGISTER_REQUEST_URL, listener, errorListener);
         params = new HashMap<>();
-        params.put("id", id);
+        params.put("event_id", id);
+
         headers = new HashMap<>();
         headers.put("x-auth-token",token);
 
