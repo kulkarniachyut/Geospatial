@@ -1,6 +1,7 @@
 package com.nightson;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -103,11 +104,17 @@ public class MapActivity extends AppCompatActivity
                 fragmentClass = MapFragmentNew.class;
                 break;
             case R.id.events:
-//                fragmentClass = EventsFragment.class;
                 Intent registerIntent = new Intent(this,
                         EventsTabActivity.class);
                 startActivity(registerIntent);
                 break;
+            case R.id.logout:
+                Log.d("logout", String.valueOf(menuItem.getItemId()));
+                SharedPreferences.Editor e = getSharedPreferences(Constants.PREF_FILE_NAME,0).edit();
+                e.remove("x-auth-token");
+                e.apply();
+                e.commit();
+                finish();
             default:
                 Log.d("default", String.valueOf(menuItem.getItemId()));
                 fragmentClass = MapFragmentNew.class;
