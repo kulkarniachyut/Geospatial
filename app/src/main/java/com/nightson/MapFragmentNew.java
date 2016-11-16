@@ -111,7 +111,7 @@ public class MapFragmentNew extends Fragment
         // volley code
         String url =
                 "http://vswamy.net:8888/search?latitude=" + lat + "&longitude="
-                        + lng + "&radius=40000";
+                        + lng + "&radius=20000";
 
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET,
                 url, null, new Response.Listener<JSONArray>()
