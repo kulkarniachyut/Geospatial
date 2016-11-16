@@ -109,7 +109,7 @@ public class MapFragmentNew extends Fragment
         double radius = Math.exp((16 - zoomlev) * Math.log(2)) * 500;
         // volley code
         String url = "http://vswamy.net:8888/search?latitude=" + lat + "&longitude="
-                        + lng + "&radius=20000";
+                        + lng + "&radius=2000";
         SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREF_FILE_NAME,0);
         final String token = preferences.getString("x-auth-token","None");
 
