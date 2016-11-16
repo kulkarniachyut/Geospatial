@@ -89,7 +89,7 @@ public class MapFragmentNew extends Fragment
                         .fillColor(0x25808080));
         mMap.setMapStyle(MapStyleOptions
                 .loadRawResourceStyle(getActivity().getBaseContext(),
-                        R.raw.night_map));
+                        R.raw.ub_map));
         mMap.setOnMarkerClickListener(this);
 
         //stop location updates
