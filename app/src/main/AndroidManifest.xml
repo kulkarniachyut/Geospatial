@@ -38,6 +38,7 @@
         <activity android:name=".PasswordChange" />
         <activity android:name=".UploadImage" />
         <activity android:name=".EventsTabActivity" />
+        <activity android:name=".RsvpDescActivity" />
         <activity
             android:name=".PopupActivity"
             android:label="@string/title_activity_popup"
@@ -50,7 +51,6 @@
             android:name=".AddEventActivity"
             android:label="@string/title_activity_add_event"
             android:theme="@style/AppTheme" />
-        <activity android:name=".RsvpDescAvtivity"></activity>
     </application>
 
 </manifest>
