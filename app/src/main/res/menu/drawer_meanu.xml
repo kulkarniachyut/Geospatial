@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
 
         <item android:id="@+id/fullprofile"
-              android:title="Profile"
+              android:title="NightsOn"
               android:icon="@drawable/achi"
         >
             <menu>

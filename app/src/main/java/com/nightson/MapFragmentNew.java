@@ -71,7 +71,6 @@ public class MapFragmentNew extends Fragment
             currLocationMarker.remove();
         }
 
-        //Place current location marker
         LatLng latLng = new LatLng(location.getLatitude(),
                 location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
@@ -211,8 +210,6 @@ public class MapFragmentNew extends Fragment
     public boolean onMarkerClick(Marker marker) {
         marker.hideInfoWindow();
         showPopup(getActivity(),marker);
-        //Log.i("GoogleMapActivity", "onMarkerClick");
-        //Toast.makeText(getActivity(),"Marker Clicked: " + marker.getTitle(), Toast.LENGTH_LONG).show();
         return true;
     }
 
@@ -308,13 +305,9 @@ public class MapFragmentNew extends Fragment
             Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-        //View view = inflater.inflate(R.layout.map_view, vg, false);
         FragmentManager fm = getChildFragmentManager();
         SupportMapFragment mapFragment = (SupportMapFragment) fm
                 .findFragmentById(R.id.map2);
-        //SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
-        // .findFragmentById(R.id.map2);
-        //        if(mapFragment!=null)
         mapFragment.getMapAsync(this);
         FloatingActionButton btn;
         btn = (FloatingActionButton) view.findViewById(R.id.addEvents);
@@ -337,9 +330,6 @@ public class MapFragmentNew extends Fragment
                     Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-
-        //        MapFragment mFragment = (MapFragment)getChildFragmentManager().findFragmentById(R.id.map2);
-        //        mFragment.getMapAsync(this);
     }
 
     @Override
