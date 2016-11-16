@@ -48,7 +48,7 @@ import java.util.Map;
 
 public class MapFragmentNew extends Fragment
         implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener
+        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener,GoogleMap.OnMapClickListener
 {
     private GoogleMap mMap;
     Marker currLocationMarker;
@@ -89,7 +89,7 @@ public class MapFragmentNew extends Fragment
                         .fillColor(0x25808080));
         mMap.setMapStyle(MapStyleOptions
                 .loadRawResourceStyle(getActivity().getBaseContext(),
-                        R.raw.night_map));
+                        R.raw.ub_map));
         mMap.setOnMarkerClickListener(this);
 
         //stop location updates
@@ -107,7 +107,6 @@ public class MapFragmentNew extends Fragment
         double lat = location.getLatitude();
         double lng = location.getLongitude();
         double radius = Math.exp((16 - zoomlev) * Math.log(2)) * 500;
-        Log.d("radius", Double.toString(radius));
         // volley code
         String url = "http://vswamy.net:8888/search?latitude=" + lat + "&longitude="
                         + lng + "&radius=20000";
@@ -138,11 +137,14 @@ public class MapFragmentNew extends Fragment
                         // adding marker
                         MarkerOptions markerOptions = new MarkerOptions();
                         LatLng latLng = new LatLng(latitude, longitude);
+                        markerOptions.icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                         markerOptions.position(latLng);
                         markerOptions.title(party_name);
 
                         Marker x = mMap.addMarker(markerOptions);
                         map.put(x, jsonObject);
+
                     }
                 }
                 catch (JSONException e)
@@ -172,6 +174,39 @@ public class MapFragmentNew extends Fragment
         VolleyHelper.getInstance(getActivity().getBaseContext())
                 .add(jsonRequest);
 
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+
+
+        MarkerOptions addressmarker=new MarkerOptions();
+
+        addressmarker.position(latLng);
+        addressmarker.title(latLng.latitude+" : "+latLng.longitude);
+
+        Location temploc = new Location("");
+        temploc.setLatitude(currLocationMarker.getPosition().latitude);
+        temploc.setLongitude(currLocationMarker.getPosition().longitude);
+        LatLng ll = new LatLng(temploc.getLatitude(),
+                temploc.getLongitude());
+        mMap.clear();
+        // add current location marker after clearing
+        MarkerOptions curloc=new MarkerOptions();
+        curloc.position(ll);
+        curloc.title("Current Location");
+        curloc.icon(BitmapDescriptorFactory
+                .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        mMap.addMarker(curloc);
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        addressmarker.icon(BitmapDescriptorFactory
+                .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+        Marker currmarker = mMap.addMarker(addressmarker);
+        Location location = new Location("");
+        location.setLatitude(currmarker.getPosition().latitude);
+        location.setLongitude(currmarker.getPosition().longitude);
+        loadnearbyparties(location,mMap.getCameraPosition().zoom);
     }
 
     private void showPopup(final Activity context, Marker marker) {
@@ -348,6 +383,7 @@ public class MapFragmentNew extends Fragment
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
+        mMap.setOnMapClickListener(this);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             if (ContextCompat.checkSelfPermission(getActivity(),
