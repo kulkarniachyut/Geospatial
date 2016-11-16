@@ -9,11 +9,13 @@ import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
@@ -28,9 +30,14 @@ public class RsvpDescActivity extends AppCompatActivity {
         String end = getIntent().getStringExtra("endtime");
         Date startDate = new Date(Long.parseLong(start) * 1000);
         Date endDate = new Date(Long.parseLong(end) * 1000);
+        String url = getIntent().getStringExtra("url");
+        Log.d("photo url " , url);
 
         TextView nameText = (TextView) findViewById(R.id.name);
         nameText.setText(name);
+
+        ImageView imageview = (ImageView) findViewById(R.id.eventImage);
+        Picasso.with(getApplicationContext()).load(url).into(imageview);
 
         EditText startdate = (EditText) findViewById(R.id.startDate);
         EditText enddate = (EditText) findViewById(R.id.endDate);

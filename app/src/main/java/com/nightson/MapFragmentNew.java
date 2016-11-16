@@ -250,6 +250,7 @@ public class MapFragmentNew extends Fragment
             i.putExtra("endtime" , jsob.getString("end_time"));
             i.putExtra("rsvp" , jsob.getInt("rsvp"));
             i.putExtra("id" , jsob.getString("id"));
+            i.putExtra("url" , jsob.getString("photo_url"));
 //            i.putExtra("name" , jsob.getString("name"));
 
         } catch (JSONException e) {

@@ -47,6 +47,7 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'org.apache.httpcomponents:httpmime:4.3.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 //    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.5.2'
 //    exclude {
 //        "httpmime-4.5.2.jar"
