@@ -3,6 +3,7 @@ package com.nightson;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationProvider;
 import android.os.Build;
@@ -32,10 +33,15 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
+import com.google.maps.android.heatmaps.Gradient;
+import com.google.maps.android.heatmaps.HeatmapTileProvider;
+import com.google.maps.android.heatmaps.WeightedLatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +53,9 @@ public class MapFragmentNew extends Fragment
     private GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     HashMap<Marker, JSONObject> map = new HashMap<Marker, JSONObject>();
+    private HeatmapTileProvider mProvider = null;
+    private TileOverlay toverlay = null;
+    ArrayList<WeightedLatLng> heatmap_locations = new ArrayList<WeightedLatLng>();
 
     public MapFragmentNew()
     {
@@ -108,6 +117,7 @@ public class MapFragmentNew extends Fragment
             {
                 double latitude, longitude;
                 String party_name;
+                Double rsvp_count;
                 // the response is already constructed as a JSONObject!
                 Log.d(" responsesindhu ", response.toString());
                 try
@@ -122,10 +132,13 @@ public class MapFragmentNew extends Fragment
                         latitude = Double.parseDouble(
                                 arr[2].substring(0, arr[2].length() - 2));
                         party_name = jsonObject.getString("name");
+                        rsvp_count = Double.parseDouble(jsonObject.getString("rsvp"));
 
                         // adding marker
                         MarkerOptions markerOptions = new MarkerOptions();
                         LatLng latLng = new LatLng(latitude, longitude);
+                        WeightedLatLng wtlatlng = new WeightedLatLng(latLng,rsvp_count);
+                        heatmap_locations.add(wtlatlng);
                         markerOptions.icon(BitmapDescriptorFactory
                                 .defaultMarker(
                                         BitmapDescriptorFactory.HUE_AZURE));
@@ -164,6 +177,27 @@ public class MapFragmentNew extends Fragment
         VolleyHelper.getInstance(getActivity().getBaseContext())
                 .add(jsonRequest);
 
+    }
+
+    protected void add_heatmap(ArrayList<WeightedLatLng> locations) {
+        if(toverlay == null) {
+            int[] colors = {
+                    Color.rgb(0, 0, 128), // navy
+                    Color.rgb(255, 0, 0)    // red
+            };
+            float[] startPoints = {
+                    0.2f, 1f
+            };
+            Gradient gradient = new Gradient(colors, startPoints);
+            mProvider = new HeatmapTileProvider.Builder().weightedData(locations).gradient(gradient).build();
+            mProvider.setRadius(100);
+            toverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+        }
+        else
+        {
+            toverlay.remove();
+            toverlay=null;
+        }
     }
 
     @Override
@@ -253,8 +287,9 @@ public class MapFragmentNew extends Fragment
         SupportMapFragment mapFragment = (SupportMapFragment) fm
                 .findFragmentById(R.id.map2);
         mapFragment.getMapAsync(this);
-        FloatingActionButton btn;
+        FloatingActionButton btn, heatmapbtn;
         btn = (FloatingActionButton) view.findViewById(R.id.addEvents);
+        heatmapbtn = (FloatingActionButton) view.findViewById(R.id.addHeatmap);
         btn.setOnClickListener(new View.OnClickListener()
         {
 
@@ -264,6 +299,16 @@ public class MapFragmentNew extends Fragment
                 Intent i = new Intent(getActivity(), AddEventActivity.class);
                 startActivity(i);
 
+            }
+        });
+
+        heatmapbtn.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                add_heatmap(heatmap_locations);
             }
         });
         return view;
