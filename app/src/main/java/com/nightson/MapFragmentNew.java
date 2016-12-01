@@ -51,7 +51,7 @@ public class MapFragmentNew extends Fragment
     private GoogleMap mMap;
     Marker currLocationMarker;
     private GoogleApiClient mGoogleApiClient;
-    Location mLastLocation;
+    Location mLastLocation = null;
     HashMap<Marker, JSONObject> map = new HashMap<Marker, JSONObject>();
     private HeatmapTileProvider mProvider = null;
     private TileOverlay toverlay = null;
@@ -86,6 +86,11 @@ public class MapFragmentNew extends Fragment
     @Override
     public void onLocationChanged(Location location)
     {
+        if(mLastLocation != null && mLastLocation.distanceTo(location) < Constants.REDRAW_METERS)
+            return;
+
+        mLastLocation = location;
+
         clearMap();
         LatLng latLng = new LatLng(location.getLatitude(),
                 location.getLongitude());
