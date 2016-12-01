@@ -26,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -35,124 +34,140 @@ import java.util.Date;
  * Use the {@link CreateEventFragment#//newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateEventFragment extends Fragment {
-    FloatingActionButton mapbtn,sdatebtn,stimebtn,edatebtn,etimebtn,submitbt;
-    EditText startDate, startTime,endDate,endTime,addrtext,nametext;
+public class CreateEventFragment extends Fragment
+{
+    FloatingActionButton mapbtn, sdatebtn, stimebtn, edatebtn, etimebtn, submitbt;
+    EditText startDate, startTime, endDate, endTime, addrtext, nametext;
     private int mYear, mMonth, mDay, mHour, mMinute;
     Activity activity;
     private onButtonClickListener listener;
     private onSubmitClickListener listener1;
 
-
-    public CreateEventFragment() {
+    public CreateEventFragment()
+    {
         // Required empty public constructor
     }
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        FloatingActionButton mapbtn,sdatebtn,stimebtn,edatebtn,etimebtn;
+            Bundle savedInstanceState)
+    {
+        FloatingActionButton mapbtn, sdatebtn, stimebtn, edatebtn, etimebtn;
 
-        View view = inflater.inflate(R.layout.fragment_create_event, container, false);
+        View view = inflater
+                .inflate(R.layout.fragment_create_event, container, false);
 
-        mapbtn=(FloatingActionButton) view.findViewById(R.id.addrbtn);
-        sdatebtn=(FloatingActionButton) view.findViewById(R.id.startDatebtn);
-        stimebtn=(FloatingActionButton) view.findViewById(R.id.startTimebtn);
-        edatebtn=(FloatingActionButton) view.findViewById(R.id.endDatebtn);
-        etimebtn=(FloatingActionButton) view.findViewById(R.id.endTimebtn);
-        submitbt=(FloatingActionButton) view.findViewById(R.id.submitbtn);
+        mapbtn = (FloatingActionButton) view.findViewById(R.id.addrbtn);
+        sdatebtn = (FloatingActionButton) view.findViewById(R.id.startDatebtn);
+        stimebtn = (FloatingActionButton) view.findViewById(R.id.startTimebtn);
+        edatebtn = (FloatingActionButton) view.findViewById(R.id.endDatebtn);
+        etimebtn = (FloatingActionButton) view.findViewById(R.id.endTimebtn);
+        submitbt = (FloatingActionButton) view.findViewById(R.id.submitbtn);
 
-        startDate=(EditText) view.findViewById(R.id.startdate);
-        startTime=(EditText) view.findViewById(R.id.starttime);
-        endDate=(EditText) view.findViewById(R.id.enddate);
-        endTime=(EditText) view.findViewById(R.id.endtime);
-        addrtext=(EditText) view.findViewById(R.id.Eventaddr);
-        nametext=(EditText) view.findViewById(R.id.EventName);
+        startDate = (EditText) view.findViewById(R.id.startdate);
+        startTime = (EditText) view.findViewById(R.id.starttime);
+        endDate = (EditText) view.findViewById(R.id.enddate);
+        endTime = (EditText) view.findViewById(R.id.endtime);
+        addrtext = (EditText) view.findViewById(R.id.Eventaddr);
+        nametext = (EditText) view.findViewById(R.id.EventName);
 
-        submitbt.setOnClickListener(new View.OnClickListener() {
+        submitbt.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // TODO Auto-generated method stub
-                Date start_date=null, end_date=null;
+                Date start_date = null, end_date = null;
                 String name = nametext.getText().toString();
                 String latlng = addrtext.getText().toString();
                 String startdate = startDate.getText().toString();
                 String starttime = startTime.getText().toString();
                 String enddate = endDate.getText().toString();
                 String endtime = endTime.getText().toString();
-                String combined_start = startdate+" "+starttime;
-                String combined_end = enddate+" "+endtime;
+                String combined_start = startdate + " " + starttime;
+                String combined_end = enddate + " " + endtime;
                 DateFormat dF = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-                try {
+                try
+                {
                     start_date = dF.parse(combined_start);
-                }catch(ParseException e)
+                }
+                catch (ParseException e)
                 {
                     e.printStackTrace();
                 }
 
-                try {
+                try
+                {
                     end_date = dF.parse(combined_end);
-                }catch(ParseException e)
+                }
+                catch (ParseException e)
                 {
                     e.printStackTrace();
                 }
 
-                String start_time = Double.toString(start_date.getTime()/1000);
-                String end_time = Double.toString(end_date.getTime()/1000);
+                String start_time = Double
+                        .toString(start_date.getTime() / 1000);
+                String end_time = Double.toString(end_date.getTime() / 1000);
 
-                listener1.onsubmit(name,latlng,start_time,end_time);
-
+                listener1.onsubmit(name, latlng, start_time, end_time);
 
             }
         });
-        sdatebtn.setOnClickListener(new View.OnClickListener() {
+        sdatebtn.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // TODO Auto-generated method stub
                 showDate(startDate);
 
             }
         });
 
-        stimebtn.setOnClickListener(new View.OnClickListener() {
+        stimebtn.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // TODO Auto-generated method stub
                 showTime(startTime);
 
             }
         });
 
-        edatebtn.setOnClickListener(new View.OnClickListener() {
+        edatebtn.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // TODO Auto-generated method stub
                 showDate(endDate);
 
             }
         });
 
-        etimebtn.setOnClickListener(new View.OnClickListener() {
+        etimebtn.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // TODO Auto-generated method stub
                 showTime(endTime);
 
             }
         });
 
-        mapbtn.setOnClickListener(new View.OnClickListener() {
+        mapbtn.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // TODO Auto-generated method stub
                 listener.onbutton(1);
 
@@ -161,8 +176,8 @@ public class CreateEventFragment extends Fragment {
 
         return view;
 
-
     }
+
     /*public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
@@ -175,27 +190,32 @@ public class CreateEventFragment extends Fragment {
     public void onAttach(Activity activity)
     {
 
-
-         this.activity= activity;
+        this.activity = activity;
         super.onAttach(activity);
-        if (activity instanceof onButtonClickListener) {
+        if (activity instanceof onButtonClickListener)
+        {
             listener = (onButtonClickListener) activity;
-        } else {
+        }
+        else
+        {
             throw new ClassCastException(activity.toString()
                     + " must implement MyListFragment.OnItemSelectedListener");
         }
-        if (activity instanceof onSubmitClickListener) {
+        if (activity instanceof onSubmitClickListener)
+        {
             listener1 = (onSubmitClickListener) activity;
         }
     }
 
-    public void setAddrtext(String value){
+    public void setAddrtext(String value)
+    {
         addrtext.setText(value);
     }
+
     @Override
     public void onViewCreated(View view,
-                              @Nullable
-                                      Bundle savedInstanceState)
+            @Nullable
+                    Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
 
@@ -203,12 +223,15 @@ public class CreateEventFragment extends Fragment {
         //        mFragment.getMapAsync(this);
     }
 
-    public interface onButtonClickListener{
+    public interface onButtonClickListener
+    {
         public void onbutton(int position);
     }
 
-    public interface onSubmitClickListener{
-        public void onsubmit(String name,String latlng, String start, String end);
+    public interface onSubmitClickListener
+    {
+        public void onsubmit(String name, String latlng, String start,
+                String end);
     }
 
     private void showTime(final EditText displaytext)
@@ -220,11 +243,13 @@ public class CreateEventFragment extends Fragment {
 
         // Launch Time Picker Dialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
-                new TimePickerDialog.OnTimeSetListener() {
+                new TimePickerDialog.OnTimeSetListener()
+                {
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
+                            int minute)
+                    {
 
                         displaytext.setText(hourOfDay + ":" + minute);
 
@@ -232,6 +257,7 @@ public class CreateEventFragment extends Fragment {
                 }, mHour, mMinute, false);
         timePickerDialog.show();
     }
+
     private void showDate(final EditText displaytext)
     {
         // Get Current Date
@@ -240,22 +266,23 @@ public class CreateEventFragment extends Fragment {
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                new DatePickerDialog.OnDateSetListener() {
+                new DatePickerDialog.OnDateSetListener()
+                {
 
                     @Override
                     public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
+                            int monthOfYear, int dayOfMonth)
+                    {
 
-                        displaytext.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
+                        displaytext.setText(
+                                dayOfMonth + "-" + (monthOfYear + 1) + "-"
+                                        + year);
 
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
 
     }
-
 
 }

@@ -25,14 +25,19 @@ public class LoginActivity extends AppCompatActivity
 
             @Override
             public void onResponse(String response)
-            {   JSONObject jsonObj = null ;
-                try {
-                   jsonObj= new JSONObject(response);
-                    SharedPreferences.Editor e = getSharedPreferences(Constants.PREF_FILE_NAME,0).edit();
-                    e.putString("x-auth-token" ,jsonObj.getString("token"));
+            {
+                JSONObject jsonObj = null;
+                try
+                {
+                    jsonObj = new JSONObject(response);
+                    SharedPreferences.Editor e = getSharedPreferences(
+                            Constants.PREF_FILE_NAME, 0).edit();
+                    e.putString("x-auth-token", jsonObj.getString("token"));
                     e.commit();
 
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
 

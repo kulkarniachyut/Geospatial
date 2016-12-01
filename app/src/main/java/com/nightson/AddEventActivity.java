@@ -39,51 +39,59 @@ import java.util.Map;
 
 import static android.R.attr.fragment;
 
+public class AddEventActivity extends AppCompatActivity
+        implements CreateEventFragment.onButtonClickListener, AddressFragment.onBackButtonClickListener, CreateEventFragment.onSubmitClickListener
+{
 
-public class AddEventActivity extends AppCompatActivity implements CreateEventFragment.onButtonClickListener, AddressFragment.onBackButtonClickListener,CreateEventFragment.onSubmitClickListener {
+    Fragment event_fragment, map_fragment;
 
-Fragment event_fragment, map_fragment;
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         int count = getFragmentManager().getBackStackEntryCount();
-        if (count == 0) {
+        if (count == 0)
+        {
             super.onBackPressed();
         }
-        else {
+        else
+        {
             getSupportFragmentManager().popBackStack();
         }
     }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
 
         FragmentManager fm = getSupportFragmentManager();
 
         event_fragment = fm.findFragmentById(R.id.Fragment2);
-        if (event_fragment == null) {
+        if (event_fragment == null)
+        {
             FragmentTransaction ft = fm.beginTransaction();
-            event_fragment =new CreateEventFragment();
-            ft.add(R.id.frag1,event_fragment,"Fragment2");
+            event_fragment = new CreateEventFragment();
+            ft.add(R.id.frag1, event_fragment, "Fragment2");
             ft.commit();
 
         }
 
-
-
     }
 
     @Override
-    public void onbutton(int number) {
-        Log.d("toast ","sindhu");
+    public void onbutton(int number)
+    {
+        Log.d("toast ", "sindhu");
         if (number == 1)
         {
             FragmentManager fm = getSupportFragmentManager();
             map_fragment = fm.findFragmentById(R.id.Fragment1);
-            if (map_fragment == null) {
+            if (map_fragment == null)
+            {
                 FragmentTransaction ft = fm.beginTransaction();
-                map_fragment =new AddressFragment();
-                ft.add(R.id.frag1,map_fragment,"Fragment1");
+                map_fragment = new AddressFragment();
+                ft.add(R.id.frag1, map_fragment, "Fragment1");
                 ft.hide(event_fragment);
                 ft.commit();
             }
@@ -92,41 +100,46 @@ Fragment event_fragment, map_fragment;
     }
 
     @Override
-    public void onmapclick(Double currlat, Double currlng) {
-        Log.d("toastsindhu ",currlat.toString());
-            String latlng = currlat.toString()+":"+currlng.toString();
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.hide(map_fragment);
-            ft.show(event_fragment);
-            //event_fragment.setAddrtext(latlng);
-            ((EditText)event_fragment.getView().findViewById(R.id.Eventaddr)).setText(latlng);
-            ft.commit();
-
-
+    public void onmapclick(Double currlat, Double currlng)
+    {
+        Log.d("toastsindhu ", currlat.toString());
+        String latlng = currlat.toString() + ":" + currlng.toString();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.hide(map_fragment);
+        ft.show(event_fragment);
+        //event_fragment.setAddrtext(latlng);
+        ((EditText) event_fragment.getView().findViewById(R.id.Eventaddr))
+                .setText(latlng);
+        ft.commit();
 
     }
 
     @Override
-    public void onsubmit(String name, String latlng, String start, String end) {
-        SharedPreferences preferences = this.getSharedPreferences(Constants.PREF_FILE_NAME,0);
-        final String token = preferences.getString("x-auth-token","None");
+    public void onsubmit(String name, String latlng, String start, String end)
+    {
+        SharedPreferences preferences = this
+                .getSharedPreferences(Constants.PREF_FILE_NAME, 0);
+        final String token = preferences.getString("x-auth-token", "None");
         String[] splitString = latlng.split("\\:");
         String lat = splitString[0];
         String lng = splitString[1];
-        String url = "http://vswamy.net:8888/events?name="+name+"&latitude=" + lat + "&longitude="
-                        + lng + "&start_time="+start+"&end_time="+end;
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.PUT,
-                url, null, new Response.Listener<JSONObject>()
-        {
-            @Override
-            public void onResponse(JSONObject response) {
+        String url = "http://vswamy.net:8888/events?name=" + name + "&latitude="
+                + lat + "&longitude=" + lng + "&start_time=" + start
+                + "&end_time=" + end;
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(
+                Request.Method.PUT, url, null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
 
-                // the response is already constructed as a JSONObject!
-                Log.d(" responsesindhu ", response.toString());
-                Log.d("response sindhu", response.toString());
-            }
-        }, new Response.ErrorListener()
+                        // the response is already constructed as a JSONObject!
+                        Log.d(" responsesindhu ", response.toString());
+                        Log.d("response sindhu", response.toString());
+                    }
+                }, new Response.ErrorListener()
         {
 
             @Override
@@ -140,12 +153,11 @@ Fragment event_fragment, map_fragment;
             public Map<String, String> getHeaders() throws AuthFailureError
             {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("x-auth-token",token);
+                headers.put("x-auth-token", token);
                 return headers;
             }
         };
-        VolleyHelper.getInstance(this.getBaseContext())
-                .add(jsonRequest);
+        VolleyHelper.getInstance(this.getBaseContext()).add(jsonRequest);
         this.finish();
     }
 }

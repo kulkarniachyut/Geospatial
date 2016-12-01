@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 
-
 public class LogoActivity extends AppCompatActivity
 {
 
@@ -28,7 +27,7 @@ public class LogoActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-//        finish();
+        //        finish();
     }
 
 }

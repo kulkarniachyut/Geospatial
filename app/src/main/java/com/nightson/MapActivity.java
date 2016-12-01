@@ -24,7 +24,6 @@ public class MapActivity extends AppCompatActivity
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -69,8 +68,10 @@ public class MapActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();  // Always call the superclass method first
     }
 
@@ -110,7 +111,8 @@ public class MapActivity extends AppCompatActivity
                 break;
             case R.id.logout:
                 Log.d("logout", String.valueOf(menuItem.getItemId()));
-                SharedPreferences.Editor e = getSharedPreferences(Constants.PREF_FILE_NAME,0).edit();
+                SharedPreferences.Editor e = getSharedPreferences(
+                        Constants.PREF_FILE_NAME, 0).edit();
                 e.remove("x-auth-token");
                 e.apply();
                 e.commit();
@@ -122,15 +124,16 @@ public class MapActivity extends AppCompatActivity
 
         try
         {
-            if(fragmentClass!=null)
-            fragment = (Fragment) fragmentClass.newInstance();
+            if (fragmentClass != null)
+                fragment = (Fragment) fragmentClass.newInstance();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
 
-        if(fragment!=null) {
+        if (fragment != null)
+        {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.main_container, fragment).commit();

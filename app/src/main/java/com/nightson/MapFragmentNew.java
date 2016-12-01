@@ -47,8 +47,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapFragmentNew extends Fragment
-        implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMyLocationButtonClickListener,GoogleMap.OnMarkerClickListener,GoogleMap.OnMapClickListener
+        implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener
 {
     private GoogleMap mMap;
     Marker currLocationMarker;
@@ -79,14 +78,12 @@ public class MapFragmentNew extends Fragment
                 .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         currLocationMarker = mMap.addMarker(markerOptions);
 
-
-
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-        mMap.addCircle(
-                new CircleOptions().center(latLng).radius(Constants.DEFAULT_RADIUS).strokeWidth(0)
-                        .fillColor(0x25808080));
+        mMap.addCircle(new CircleOptions().center(latLng)
+                .radius(Constants.DEFAULT_RADIUS).strokeWidth(0)
+                .fillColor(0x25808080));
         mMap.setMapStyle(MapStyleOptions
                 .loadRawResourceStyle(getActivity().getBaseContext(),
                         R.raw.ub_map));
@@ -108,10 +105,12 @@ public class MapFragmentNew extends Fragment
         double lng = location.getLongitude();
         double radius = Math.exp((16 - zoomlev) * Math.log(2)) * 500;
         // volley code
-        String url = "http://vswamy.net:8888/search?latitude=" + lat + "&longitude="
+        String url =
+                "http://vswamy.net:8888/search?latitude=" + lat + "&longitude="
                         + lng + "&radius=2000";
-        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREF_FILE_NAME,0);
-        final String token = preferences.getString("x-auth-token","None");
+        SharedPreferences preferences = getActivity()
+                .getSharedPreferences(Constants.PREF_FILE_NAME, 0);
+        final String token = preferences.getString("x-auth-token", "None");
 
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET,
                 url, null, new Response.Listener<JSONArray>()
@@ -130,15 +129,18 @@ public class MapFragmentNew extends Fragment
                         JSONObject jsonObject = response.getJSONObject(i);
                         String loc = jsonObject.getString("location");
                         String arr[] = loc.split(",");
-                        longitude = Double.parseDouble((arr[1].split("\\["))[1]);
-                        latitude = Double.parseDouble(arr[2].substring(0,arr[2].length()-2));
+                        longitude = Double
+                                .parseDouble((arr[1].split("\\["))[1]);
+                        latitude = Double.parseDouble(
+                                arr[2].substring(0, arr[2].length() - 2));
                         party_name = jsonObject.getString("name");
 
                         // adding marker
                         MarkerOptions markerOptions = new MarkerOptions();
                         LatLng latLng = new LatLng(latitude, longitude);
                         markerOptions.icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                                .defaultMarker(
+                                        BitmapDescriptorFactory.HUE_AZURE));
                         markerOptions.position(latLng);
                         markerOptions.title(party_name);
 
@@ -177,22 +179,21 @@ public class MapFragmentNew extends Fragment
     }
 
     @Override
-    public void onMapClick(LatLng latLng) {
+    public void onMapClick(LatLng latLng)
+    {
 
-
-        MarkerOptions addressmarker=new MarkerOptions();
+        MarkerOptions addressmarker = new MarkerOptions();
 
         addressmarker.position(latLng);
-        addressmarker.title(latLng.latitude+" : "+latLng.longitude);
+        addressmarker.title(latLng.latitude + " : " + latLng.longitude);
 
         Location temploc = new Location("");
         temploc.setLatitude(currLocationMarker.getPosition().latitude);
         temploc.setLongitude(currLocationMarker.getPosition().longitude);
-        LatLng ll = new LatLng(temploc.getLatitude(),
-                temploc.getLongitude());
+        LatLng ll = new LatLng(temploc.getLatitude(), temploc.getLongitude());
         mMap.clear();
         // add current location marker after clearing
-        MarkerOptions curloc=new MarkerOptions();
+        MarkerOptions curloc = new MarkerOptions();
         curloc.position(ll);
         curloc.title("Current Location");
         curloc.icon(BitmapDescriptorFactory
@@ -206,61 +207,30 @@ public class MapFragmentNew extends Fragment
         Location location = new Location("");
         location.setLatitude(currmarker.getPosition().latitude);
         location.setLongitude(currmarker.getPosition().longitude);
-        loadnearbyparties(location,mMap.getCameraPosition().zoom);
+        loadnearbyparties(location, mMap.getCameraPosition().zoom);
     }
 
-    private void showPopup(final Activity context, Marker marker) {
-        Projection proj = mMap.getProjection();
-        Point marker_point = proj.toScreenLocation(marker.getPosition());
-        int popupWidth = 700;
-        int popupHeight = 700;
-
-        // Inflate the popup_layout.xml
-        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup_1);
-        LayoutInflater layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.content_popup, viewGroup);
-
-        // Creating the PopupWindow
-        final PopupWindow popup = new PopupWindow(context);
-        popup.setContentView(layout);
-        popup.setWidth(popupWidth);
-        popup.setHeight(popupHeight);
-        popup.setFocusable(true);
-        ((TextView)popup.getContentView().findViewById(R.id.txtView)).setText(marker.getTitle());
-
-        // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
-        int OFFSET_X = 10;
-        int OFFSET_Y = 40;
-
-        // Clear the default translucent background
-        popup.setBackgroundDrawable(new BitmapDrawable());
-
-        // Displaying the popup at the specified location, + offsets.
-        popup.showAtLocation(layout, Gravity.NO_GRAVITY, marker_point.x -OFFSET_X, marker_point.y + OFFSET_Y);
-
-    }
-
-    public boolean onMarkerClick(Marker marker) {
-        JSONObject jsob  = map.get(marker);
+    public boolean onMarkerClick(Marker marker)
+    {
+        JSONObject jsob = map.get(marker);
         Intent i = new Intent(getActivity(), RsvpDescActivity.class);
-        try {
-            i.putExtra("name" , jsob.getString("name"));
-            i.putExtra("starttime" , jsob.getString("start_time"));
-            i.putExtra("endtime" , jsob.getString("end_time"));
-            i.putExtra("rsvp" , jsob.getInt("rsvp"));
-            i.putExtra("id" , jsob.getString("id"));
-            i.putExtra("url" , jsob.getString("photo_url"));
-//            i.putExtra("name" , jsob.getString("name"));
+        try
+        {
+            i.putExtra("name", jsob.getString("name"));
+            i.putExtra("starttime", jsob.getString("start_time"));
+            i.putExtra("endtime", jsob.getString("end_time"));
+            i.putExtra("rsvp", jsob.getInt("rsvp"));
+            i.putExtra("id", jsob.getString("id"));
+            i.putExtra("url", jsob.getString("photo_url"));
 
-        } catch (JSONException e) {
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
         startActivity(i);
-//        showPopup(getActivity(),marker);
         return true;
     }
-
 
     protected synchronized void buildGoogleApiClient()
     {
@@ -359,12 +329,14 @@ public class MapFragmentNew extends Fragment
         mapFragment.getMapAsync(this);
         FloatingActionButton btn;
         btn = (FloatingActionButton) view.findViewById(R.id.addEvents);
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // TODO Auto-generated method stub
-                Intent i=new Intent(getActivity(),AddEventActivity.class);
+                Intent i = new Intent(getActivity(), AddEventActivity.class);
                 startActivity(i);
 
             }
@@ -386,11 +358,10 @@ public class MapFragmentNew extends Fragment
         Location temploc = new Location("");
         temploc.setLatitude(currLocationMarker.getPosition().latitude);
         temploc.setLongitude(currLocationMarker.getPosition().longitude);
-        LatLng ll = new LatLng(temploc.getLatitude(),
-                temploc.getLongitude());
+        LatLng ll = new LatLng(temploc.getLatitude(), temploc.getLongitude());
         mMap.clear();
         // add current location marker after clearing
-        MarkerOptions curloc=new MarkerOptions();
+        MarkerOptions curloc = new MarkerOptions();
         curloc.position(ll);
         curloc.title("Current Location");
         curloc.icon(BitmapDescriptorFactory
@@ -398,7 +369,7 @@ public class MapFragmentNew extends Fragment
         mMap.addMarker(curloc);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-        loadnearbyparties(temploc,17);
+        loadnearbyparties(temploc, 17);
         return true;
     }
 

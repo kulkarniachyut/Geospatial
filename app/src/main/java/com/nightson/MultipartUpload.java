@@ -29,39 +29,40 @@ import java.util.Map;
  * Created by achi on 11/13/16.
  */
 
-public class MultipartUpload extends Request<String> {
+public class MultipartUpload extends Request<String>
+{
 
-//    private MultipartEntity entity = new MultipartEntity();
-
+    //    private MultipartEntity entity = new MultipartEntity();
 
     private MultipartEntityBuilder entity = MultipartEntityBuilder.create();
     HttpEntity httpentity;
     private static final String REGISTER_REQUEST_URL = "http://vswamy.net:8888/upload";
     private static final String FILE_PART_NAME = "file_name";
     private static final String STRING_PART_NAME = "text";
-//    HttpEntity httpentity;
+    //    HttpEntity httpentity;
 
     private String mStringPart;
     private Map<String, String> params;
     private final Response.Listener<String> mListener;
-    private  File mFilePart;
+    private File mFilePart;
     private Map<String, String> headers;
 
-
-    public MultipartUpload(File file,String token,  Response.Listener<String> listener, Response.ErrorListener errorlistener) {
+    public MultipartUpload(File file, String token,
+            Response.Listener<String> listener,
+            Response.ErrorListener errorlistener)
+    {
         super(Method.POST, REGISTER_REQUEST_URL, errorlistener);
 
         mListener = listener;
         mFilePart = file;
         mStringPart = token;
-//        entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        //        entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         buildMultipartEntity();
         httpentity = entity.build();
-//        entity = new MultipartEntityBuilder(HttpMultipartMode.BROWSER_COMPATIBLE);
-
-
+        //        entity = new MultipartEntityBuilder(HttpMultipartMode.BROWSER_COMPATIBLE);
 
     }
+
     private void buildMultipartEntity()
     {
         entity.addPart(FILE_PART_NAME, new FileBody(mFilePart));
@@ -75,12 +76,11 @@ public class MultipartUpload extends Request<String> {
         }
     }
 
-
     @Override
     public String getBodyContentType()
     {
         return httpentity.getContentType().getValue();
-//        return entity
+        //        return entity
     }
 
     @Override
@@ -91,8 +91,8 @@ public class MultipartUpload extends Request<String> {
         {
             httpentity = entity.build();
             httpentity.writeTo(bos);
-//            entity.writeTo(bos);
-//            httpentity.httpentitywriteTo(bos);
+            //            entity.writeTo(bos);
+            //            httpentity.httpentitywriteTo(bos);
         }
         catch (IOException e)
         {
@@ -102,34 +102,36 @@ public class MultipartUpload extends Request<String> {
     }
 
     @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
+    public Map<String, String> getHeaders() throws AuthFailureError
+    {
         Map<String, String> headers = super.getHeaders();
 
-        if (headers == null
-                || headers.equals(Collections.emptyMap())) {
+        if (headers == null || headers.equals(Collections.emptyMap()))
+        {
             headers = new HashMap<String, String>();
         }
 
         headers.put("Content-Type", "multipart/form-data");
-        headers.put("x-auth-token",mStringPart);
-
+        headers.put("x-auth-token", mStringPart);
 
         return headers;
     }
+
     @Override
-    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+    protected Response<String> parseNetworkResponse(NetworkResponse response)
+    {
         return Response.success("Uploaded", getCacheEntry());
     }
 
     @Override
-    protected void deliverResponse(String response) {
+    protected void deliverResponse(String response)
+    {
         mListener.onResponse(response);
     }
 
-//
-//    public static interface MultipartProgressListener {
-//        void transferred(long transfered, int progress);
-//    }
-
+    //
+    //    public static interface MultipartProgressListener {
+    //        void transferred(long transfered, int progress);
+    //    }
 
 }

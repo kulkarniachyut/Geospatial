@@ -3,6 +3,7 @@ package com.nightson;
 /**
  * Created by achi on 11/13/16.
  */
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,15 +27,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class OwnedEventsTab extends Fragment{
+public class OwnedEventsTab extends Fragment
+{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState)
+    {
 
-        final View rootView = inflater.inflate(R.layout.owned_events_tab, container, false);
-        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREF_FILE_NAME,0);
-        final String token = preferences.getString("x-auth-token","None");
+        final View rootView = inflater
+                .inflate(R.layout.owned_events_tab, container, false);
+        SharedPreferences preferences = getActivity()
+                .getSharedPreferences(Constants.PREF_FILE_NAME, 0);
+        final String token = preferences.getString("x-auth-token", "None");
         Response.Listener<String> responseListener = new Response.Listener<String>()
         {
 
@@ -43,7 +48,7 @@ public class OwnedEventsTab extends Fragment{
             {
                 System.out.println("Working API");
                 Log.d("Working API", "3");
-                 Log.d("response", response);
+                Log.d("response", response);
                 Context context = getContext();
                 CharSequence text = "Owned Events Tab";
                 int duration = Toast.LENGTH_SHORT;
@@ -53,22 +58,24 @@ public class OwnedEventsTab extends Fragment{
 
                 JSONObject respobj;
                 ArrayList<OwnedEventObject> mArrayList = new ArrayList<>();
-//                Log.d("json" , String.valueOf(response.getClass()));
-                try {
+                //                Log.d("json" , String.valueOf(response.getClass()));
+                try
+                {
                     JSONArray jarray = new JSONArray(String.valueOf(response));
-//                    Log.d("jsonarray" , String.valueOf(jarray.getJSONObject(0)));
+                    //                    Log.d("jsonarray" , String.valueOf(jarray.getJSONObject(0)));
 
-                    for (int i=0;i<jarray.length();i++){
+                    for (int i = 0; i < jarray.length(); i++)
+                    {
                         JSONObject obj = (jarray.getJSONObject(i));
                         String name = obj.getString("name");
                         String etime = obj.getString("end_time");
                         String stime = obj.getString("start_time");
                         String location1 = obj.getString("location");
-                        Log.d("location" ,location1);
+                        Log.d("location", location1);
                         String id = obj.getString("id");
 
-//                        JSONObject loc = location1.getJSONObject(0);
-//                        String cordinatess = loc.getString("coordinates");
+                        //                        JSONObject loc = location1.getJSONObject(0);
+                        //                        String cordinatess = loc.getString("coordinates");
                         String[] parts = location1.split("\\[");
                         String location = parts[1];
                         String[] newloc = location.split(",");
@@ -76,36 +83,37 @@ public class OwnedEventsTab extends Fragment{
                         String[] newlong = newloc[1].split("\\]");
                         String longitude = newlong[0];
 
+                        //                        Log.d("JSON string", longitude);
+                        //                        Log.d("JSON string", latitude);
+                        //                        Log.d("JSON class", String.valueOf(latitude.getClass()));
 
-
-//                        Log.d("JSON string", longitude);
-//                        Log.d("JSON string", latitude);
-//                        Log.d("JSON class", String.valueOf(latitude.getClass()));
-
-//                        String lat = loc.getString("name");
-//                        String lon = obj.getString("name");
+                        //                        String lat = loc.getString("name");
+                        //                        String lon = obj.getString("name");
 
                         Date StartTime = new Date(Long.parseLong(stime) * 1000);
                         Date endTime = new Date(Long.parseLong(etime) * 1000);
-                        mArrayList.add(new OwnedEventObject(StartTime, endTime , name , latitude,longitude,id));
+                        mArrayList.add(new OwnedEventObject(StartTime, endTime,
+                                name, latitude, longitude, id));
 
                     }
 
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
 
+                ListView mListView = (ListView) rootView
+                        .findViewById(R.id.ownedlistview);
 
-                ListView mListView = (ListView) rootView.findViewById(R.id.ownedlistview);
-
-//                        mArrayList.add(new OwnedEventObject(new Date(),new Date(),"Achyut","1","2"));
-                        OwnedAdapter mAdapter = new OwnedAdapter(getContext(),mArrayList,true);
-                        mListView.setAdapter(mAdapter);
+                //                        mArrayList.add(new OwnedEventObject(new Date(),new Date(),"Achyut","1","2"));
+                OwnedAdapter mAdapter = new OwnedAdapter(getContext(),
+                        mArrayList, true);
+                mListView.setAdapter(mAdapter);
 
             }
 
         };
-
 
         Response.ErrorListener ErrorresponseListener = new Response.ErrorListener()
         {
@@ -116,20 +124,15 @@ public class OwnedEventsTab extends Fragment{
 
                 Log.d("Error", String.valueOf(error));
 
-
             }
 
         };
-//        Log.d("Token" , token);
-        OwnedEventsRequest ownedEventsRequest = new OwnedEventsRequest(
-                 token, responseListener,ErrorresponseListener );
+        //        Log.d("Token" , token);
+        OwnedEventsRequest ownedEventsRequest = new OwnedEventsRequest(token,
+                responseListener, ErrorresponseListener);
         VolleyHelper.getInstance(getContext());
-        VolleyHelper vh = VolleyHelper
-                .getInstance(getContext());
+        VolleyHelper vh = VolleyHelper.getInstance(getContext());
         vh.getRequestQueue().add(ownedEventsRequest);
-
-
-
 
         return rootView;
     }

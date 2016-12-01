@@ -47,8 +47,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddressFragment extends Fragment
-        implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        implements OnMapReadyCallback, LocationListener, GoogleMap.OnMapClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
+{
     private GoogleMap mMap;
     Marker currLocationMarker;
     private GoogleApiClient mGoogleApiClient;
@@ -57,18 +57,21 @@ public class AddressFragment extends Fragment
     Activity activity;
     private MarkerOptions addressmarker;
     private Marker currlocation;
-    Double currlat,currlng;
+    Double currlat, currlng;
 
-    public AddressFragment() {
+    public AddressFragment()
+    {
 
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location location)
+    {
         Toast.makeText(getActivity().getApplicationContext(),
                 "HELLO LOC change", Toast.LENGTH_LONG).show();
         mLastLocation = location;
-        if (currLocationMarker != null) {
+        if (currLocationMarker != null)
+        {
             currLocationMarker.remove();
         }
 
@@ -93,15 +96,16 @@ public class AddressFragment extends Fragment
                         R.raw.ub_map));
 
         //stop location updates
-        if (mGoogleApiClient != null) {
+        if (mGoogleApiClient != null)
+        {
             LocationServices.FusedLocationApi
                     .removeLocationUpdates(mGoogleApiClient, this);
         }
 
-
     }
 
-    protected synchronized void buildGoogleApiClient() {
+    protected synchronized void buildGoogleApiClient()
+    {
         mGoogleApiClient = new GoogleApiClient.Builder(
                 getActivity().getApplicationContext())
                 .addConnectionCallbacks(this)
@@ -112,26 +116,34 @@ public class AddressFragment extends Fragment
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+            String permissions[], int[] grantResults)
+    {
         //  Toast.makeText(this, requestCode, Toast.LENGTH_LONG).show();
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
+        switch (requestCode)
+        {
+            case MY_PERMISSIONS_REQUEST_LOCATION:
+            {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
 
                     // Permission was granted.
                     if (ContextCompat.checkSelfPermission(getActivity(),
                             android.Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
+                            == PackageManager.PERMISSION_GRANTED)
+                    {
 
-                        if (mGoogleApiClient == null) {
+                        if (mGoogleApiClient == null)
+                        {
                             buildGoogleApiClient();
                         }
                         mMap.setMyLocationEnabled(true);
                     }
 
-                } else {
+                }
+                else
+                {
 
                     // Permission denied, Disable the functionality that depends on this permission.
                     Toast.makeText(getActivity().getBaseContext(),
@@ -147,64 +159,75 @@ public class AddressFragment extends Fragment
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
-    public boolean checkLocationPermission() {
+    public boolean checkLocationPermission()
+    {
         if (ContextCompat.checkSelfPermission(getActivity().getBaseContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED)
+        {
 
             if (ActivityCompat
                     .shouldShowRequestPermissionRationale(getActivity(),
-                            android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+                            android.Manifest.permission.ACCESS_FINE_LOCATION))
+            {
 
                 ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
                         MY_PERMISSIONS_REQUEST_LOCATION);
 
-            } else {
+            }
+            else
+            {
                 ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION },
                         MY_PERMISSIONS_REQUEST_LOCATION);
             }
             return false;
-        } else {
+        }
+        else
+        {
             return true;
         }
     }
-@Override
-    public void onMapClick(LatLng latLng) {
 
+    @Override
+    public void onMapClick(LatLng latLng)
+    {
 
-    MarkerOptions addressmarker=new MarkerOptions();
+        MarkerOptions addressmarker = new MarkerOptions();
 
-    addressmarker.position(latLng);
-    addressmarker.title(latLng.latitude+" : "+latLng.longitude);
-    mMap.clear();
-    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-    currlocation=mMap.addMarker(addressmarker);
-    LatLng lalng = currlocation.getPosition();
-    currlat = lalng.latitude;
-    currlng = lalng.longitude;
-}
+        addressmarker.position(latLng);
+        addressmarker.title(latLng.latitude + " : " + latLng.longitude);
+        mMap.clear();
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        currlocation = mMap.addMarker(addressmarker);
+        LatLng lalng = currlocation.getPosition();
+        currlat = lalng.latitude;
+        currlng = lalng.longitude;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+            Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_address, container, false);
+        View view = inflater
+                .inflate(R.layout.fragment_address, container, false);
         FragmentManager fm = getChildFragmentManager();
         SupportMapFragment mapFragment = (SupportMapFragment) fm
                 .findFragmentById(R.id.map3);
         mapFragment.getMapAsync(this);
         // Setting a click event handler for the map
 
-
         FloatingActionButton btn;
         btn = (FloatingActionButton) view.findViewById(R.id.savebtn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // TODO Auto-generated method stub
-               listener.onmapclick(currlat,currlng);
+                listener.onmapclick(currlat, currlng);
 
             }
         });
@@ -214,30 +237,32 @@ public class AddressFragment extends Fragment
     public void onAttach(Activity activity)
     {
 
-        this.activity= activity;
+        this.activity = activity;
         super.onAttach(activity);
-        if (activity instanceof onBackButtonClickListener) {
+        if (activity instanceof onBackButtonClickListener)
+        {
             listener = (onBackButtonClickListener) activity;
-        } else {
+        }
+        else
+        {
             throw new ClassCastException(activity.toString()
                     + " must implement MyListFragment.OnItemSelectedListener");
         }
     }
 
-    public interface onBackButtonClickListener{
+    public interface onBackButtonClickListener
+    {
         public void onmapclick(Double lat, Double lng);
     }
 
-
     @Override
     public void onViewCreated(View view,
-                              @Nullable
-                                      Bundle savedInstanceState)
+            @Nullable
+                    Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
 
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap)

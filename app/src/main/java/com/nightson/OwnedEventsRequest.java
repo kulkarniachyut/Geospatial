@@ -11,17 +11,19 @@ import java.util.Map;
  * Created by achi on 11/13/16.
  */
 
-public class OwnedEventsRequest extends StringRequest{
+public class OwnedEventsRequest extends StringRequest
+{
 
     private static final String REGISTER_REQUEST_URL = "http://vswamy.net:8888/eventsownedbyuser";
     private Map<String, String> headers;
 
-
-    public OwnedEventsRequest( String token, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        super( Request.Method.GET, REGISTER_REQUEST_URL, listener, null);
+    public OwnedEventsRequest(String token, Response.Listener<String> listener,
+            Response.ErrorListener errorListener)
+    {
+        super(Request.Method.GET, REGISTER_REQUEST_URL, listener, null);
 
         headers = new HashMap<>();
-        headers.put("x-auth-token",token);
+        headers.put("x-auth-token", token);
 
     }
 

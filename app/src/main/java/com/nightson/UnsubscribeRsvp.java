@@ -9,32 +9,36 @@ import java.util.Map;
 /**
  * Created by achi on 11/15/16.
  */
-public class UnsubscribeRsvp extends StringRequest {
+public class UnsubscribeRsvp extends StringRequest
+{
 
     private static final String REGISTER_REQUEST_URL = "http://vswamy.net:8888/subscribe";
     private Map<String, String> params;
     private Map<String, String> headers;
 
-
-    public UnsubscribeRsvp(String id , String token, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        super( Method.PUT, REGISTER_REQUEST_URL, listener, errorListener);
+    public UnsubscribeRsvp(String id, String token,
+            Response.Listener<String> listener,
+            Response.ErrorListener errorListener)
+    {
+        super(Method.PUT, REGISTER_REQUEST_URL, listener, errorListener);
         params = new HashMap<>();
         params.put("event_id", id);
 
         headers = new HashMap<>();
-        headers.put("x-auth-token",token);
+        headers.put("x-auth-token", token);
 
     }
+
     @Override
     public Map<String, String> getParams()
     {
         return params;
     }
+
     @Override
     public Map<String, String> getHeaders()
     {
         return headers;
     }
-
 
 }

@@ -26,14 +26,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class RsvpEventsTab extends Fragment{
+public class RsvpEventsTab extends Fragment
+{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.rsvp_events_tab, container, false);
-        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREF_FILE_NAME,0);
-        final String token = preferences.getString("x-auth-token","None");
+            Bundle savedInstanceState)
+    {
+        final View rootView = inflater
+                .inflate(R.layout.rsvp_events_tab, container, false);
+        SharedPreferences preferences = getActivity()
+                .getSharedPreferences(Constants.PREF_FILE_NAME, 0);
+        final String token = preferences.getString("x-auth-token", "None");
         Response.Listener<String> responseListener = new Response.Listener<String>()
         {
 
@@ -52,22 +56,25 @@ public class RsvpEventsTab extends Fragment{
 
                 JSONObject respobj;
                 ArrayList<OwnedEventObject> mArrayList = new ArrayList<>();
-                Log.d("json" , String.valueOf(response.getClass()));
-                try {
+                Log.d("json", String.valueOf(response.getClass()));
+                try
+                {
                     JSONArray jarray = new JSONArray(String.valueOf(response));
-//                    Log.d("jsonarray" , String.valueOf(jarray.getJSONObject(0)));
-                    if(jarray.length() >0 ) {
-                        for (int i=0;i<jarray.length();i++){
+                    //                    Log.d("jsonarray" , String.valueOf(jarray.getJSONObject(0)));
+                    if (jarray.length() > 0)
+                    {
+                        for (int i = 0; i < jarray.length(); i++)
+                        {
                             JSONObject obj = (jarray.getJSONObject(i));
                             String id = obj.getString("id");
                             String name = obj.getString("name");
                             String etime = obj.getString("end_time");
                             String stime = obj.getString("start_time");
                             String location1 = obj.getString("location");
-                            Log.d("location" ,location1);
+                            Log.d("location", location1);
 
-//                        JSONObject loc = location1.getJSONObject(0);
-//                        String cordinatess = loc.getString("coordinates");
+                            //                        JSONObject loc = location1.getJSONObject(0);
+                            //                        String cordinatess = loc.getString("coordinates");
                             String[] parts = location1.split("\\[");
                             String location = parts[1];
                             String[] newloc = location.split(",");
@@ -75,40 +82,47 @@ public class RsvpEventsTab extends Fragment{
                             String[] newlong = newloc[1].split("\\]");
                             String longitude = newlong[0];
 
-
-
                             Log.d("JSON string", longitude);
                             Log.d("JSON string", latitude);
-                            Log.d("JSON class", String.valueOf(latitude.getClass()));
+                            Log.d("JSON class",
+                                    String.valueOf(latitude.getClass()));
 
-//                        String lat = loc.getString("name");
-//                        String lon = obj.getString("name");
+                            //                        String lat = loc.getString("name");
+                            //                        String lon = obj.getString("name");
 
-                            Date StartTime = new Date(Long.parseLong(stime) * 1000);
-                            Date endTime = new Date(Long.parseLong(etime) * 1000);
-                            mArrayList.add(new OwnedEventObject(StartTime, endTime , name , latitude,longitude,id));
+                            Date StartTime = new Date(
+                                    Long.parseLong(stime) * 1000);
+                            Date endTime = new Date(
+                                    Long.parseLong(etime) * 1000);
+                            mArrayList.add(new OwnedEventObject(StartTime,
+                                    endTime, name, latitude, longitude, id));
+                        }
+
                     }
-
-                    }
-                    else {
+                    else
+                    {
                         String name = "No events Rsvp'd";
                         Date endTime = new Date();
                         Date StartTime = new Date();
                         String latitude = "110";
                         String longitude = "-118";
 
-                        mArrayList.add(new OwnedEventObject(StartTime, endTime , name , latitude,longitude,"1"));
+                        mArrayList.add(new OwnedEventObject(StartTime, endTime,
+                                name, latitude, longitude, "1"));
                     }
 
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
 
+                ListView mListView = (ListView) rootView
+                        .findViewById(R.id.ownedlistview);
 
-                ListView mListView = (ListView) rootView.findViewById(R.id.ownedlistview);
-
-//                        mArrayList.add(new OwnedEventObject(new Date(),new Date(),"Achyut","1","2"));
-                OwnedAdapter kAdapter = new OwnedAdapter(getContext(),mArrayList,false);
+                //                        mArrayList.add(new OwnedEventObject(new Date(),new Date(),"Achyut","1","2"));
+                OwnedAdapter kAdapter = new OwnedAdapter(getContext(),
+                        mArrayList, false);
                 mListView.setAdapter(kAdapter);
 
             }
@@ -124,20 +138,15 @@ public class RsvpEventsTab extends Fragment{
 
                 Log.d("Error", String.valueOf(error));
 
-
             }
 
         };
-        Log.d("Token" , token);
-        RsvpEventsRequest rsvpEventsRequest = new RsvpEventsRequest(
-                token, responseListener,ErrorresponseListener );
+        Log.d("Token", token);
+        RsvpEventsRequest rsvpEventsRequest = new RsvpEventsRequest(token,
+                responseListener, ErrorresponseListener);
         VolleyHelper.getInstance(getContext());
-        VolleyHelper vh = VolleyHelper
-                .getInstance(getContext());
+        VolleyHelper vh = VolleyHelper.getInstance(getContext());
         vh.getRequestQueue().add(rsvpEventsRequest);
-
-
-
 
         return rootView;
     }
