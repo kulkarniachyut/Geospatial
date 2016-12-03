@@ -104,6 +104,7 @@ public class MapFragmentNew extends Fragment
         double lat = latlng.latitude;
         double lng = latlng.longitude;
         double radius = Math.exp((16 - zoomlev) * Math.log(2)) * 500;
+
         // volley code
         String url =
                 "http://vswamy.net:8888/search?latitude=" + lat + "&longitude="

@@ -11,12 +11,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/map2"
-            class="com.google.android.gms.maps.SupportMapFragment">
+            class="com.google.android.gms.maps.SupportMapFragment"
+            tools:layout="@layout/fragment_map">
+
+
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_margin="50dp"
             android:tint="@android:color/white"
             app:backgroundTint="@android:color/holo_blue_dark"
@@ -27,14 +30,21 @@
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
+            android:layout_gravity="bottom|start"
             android:layout_margin="50dp"
             android:tint="@android:color/white"
             app:backgroundTint="@android:color/holo_blue_dark"
             android:clickable="true"
             android:src="@android:drawable/ic_menu_mapmode"
             android:id="@+id/addHeatmap"/>
-
+        <SeekBar
+            android:id="@+id/sb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            android:layout_margin="50dp"
+            android:max="10"
+            android:theme="@style/Widget.AppCompat.SeekBar.Discrete" />
 
     </fragment>
 
